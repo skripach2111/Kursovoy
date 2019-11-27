@@ -6,6 +6,7 @@ AdminMain::AdminMain(QWidget *parent) :
     ui(new Ui::AdminMain)
 {
     ui->setupUi(this);
+    this->resize(560, 600);
 }
 
 AdminMain::~AdminMain()
@@ -37,17 +38,33 @@ void AdminMain::takeConnect(QSqlDatabase d)
 
 void AdminMain::on_pushButton_clicked()
 {
+    ui->groupBox_Result->setVisible(true);
+    ui->groupBox_Info->setVisible(false);
+    ui->groupBox_Databases->setVisible(false);
+    ui->groupBox_Settings->setVisible(false);
+
+    db.setDatabaseName(ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text());
+    qDebug() << ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text();
+
+    Database mydb;
+    mydb.LoadData(&db);
+    mydb.Calculate(ui->spinBox_hours->value(), ui->doubleSpinBox_coeff->value());
 }
 
 void AdminMain::on_pushButton_2_clicked()
 {
+    ui->groupBox_Result->setVisible(false);
+    ui->groupBox_Info->setVisible(true);
+    ui->groupBox_Databases->setVisible(true);
+    ui->groupBox_Settings->setVisible(false);
 }
 
 void AdminMain::on_pushButton_Return_clicked()
 {
+    ui->groupBox_Databases->setVisible(false);
+    ui->groupBox_Info->setVisible(false);
     ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Info->setVisible(true);
-    ui->groupBox_Databases->setVisible(true);
+    ui->groupBox_Settings->setVisible(true);
 }
 
 void AdminMain::on_pushButton_Open_clicked()
@@ -56,9 +73,11 @@ void AdminMain::on_pushButton_Open_clicked()
     ui->groupBox_Info->setVisible(false);
     ui->groupBox_Result->setVisible(false);
     ui->groupBox_Settings->setVisible(true);
+}
 
-//    QSqlQuery query;
-//    query.exec("USE " + ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text());
-
-
+void AdminMain::on_pushButton_Gotovo_clicked()
+{
+    ui->groupBox_Result->setVisible(false);
+    ui->groupBox_Info->setVisible(true);
+    ui->groupBox_Databases->setVisible(true);
 }

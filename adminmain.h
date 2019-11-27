@@ -5,6 +5,8 @@
 #include <QtSql>
 #include <QDebug>
 
+#include "database.h"
+
 namespace Ui {
 class AdminMain;
 }
@@ -29,6 +31,8 @@ private slots:
     void on_pushButton_Return_clicked();
 
     void on_pushButton_Open_clicked();
+
+    void on_pushButton_Gotovo_clicked();
 
 private:
     Ui::AdminMain *ui;

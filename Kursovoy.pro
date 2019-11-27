@@ -19,12 +19,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     adminmain.cpp \
+    database.cpp \
     main.cpp \
     authorization.cpp
 
 HEADERS += \
     adminmain.h \
-    authorization.h
+    authorization.h \
+    database.h
 
 FORMS += \
     adminmain.ui \
