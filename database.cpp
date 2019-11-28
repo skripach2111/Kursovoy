@@ -86,20 +86,134 @@ void Database::LoadData(QSqlDatabase *db)
     }
 }
 
-void Database::Calculate(int hourse, float coef)
+void Database::Calculate(int hours_full, float coef)
 {
     for(int i = 0; i < conf.size()-1; i++)
         for(int j = i; j < conf.size(); j++)
             if(conf[i].value_coef < conf[j].value_coef)
                 swap(conf[i], conf[j]);
 
-    int min_coef = 1;
+    qDebug() << "First sort complete!";
 
     for(int i = 0; i < conf.size(); i++)
-    {
-        if(conf[i].value_coef == min_coef)
+        qDebug() << conf[i].compet_1 << conf[i].value_coef;
+
+    for(int i = 0; i < mod_1.size()-1; i++)
+        for(int j = i+1; j < mod_1.size(); j++)
         {
-            //result_mod.push_back(conf[i]);
+            int number_i;
+            int number_j;
+
+            for(int z = 0; z < mod_comp_1.size(); z++)
+            {
+                if(mod_1[i].id == mod_comp_1[z].id_module)
+                {
+                    for(int x = 0; x < conf.size(); x++)
+                    {
+                        if(mod_comp_1[z].id_competence == conf[x].compet_1)
+                            number_i = x;
+                    }
+                }
+
+                if(mod_1[j].id == mod_comp_1[z].id_module)
+                {
+                    for(int x = 0; x < conf.size(); x++)
+                    {
+                        if(mod_comp_1[z].id_competence == conf[x].compet_1)
+                            number_j = x;
+                    }
+                }
+            }
+
+            if(number_i > number_j)
+                swap(mod_1[i], mod_1[j]);
+        }
+
+    qDebug() << "Second sort complete!";
+
+    for(int j = 0; j < mod_1.size(); j++)
+    {
+
+        for(int z = 0; z < mod_comp_1.size(); z++)
+        {
+            if(mod_1[j].id == mod_comp_1[z].id_module)
+            {
+                qDebug() << mod_1[j].id << mod_comp_1[z].id_competence;
+            }
         }
     }
+
+    for(int i = 0; i < mod_1.size(); i++)
+    {
+        float max_coef = 0;
+        QString competence;
+        int number_z1;
+        int number_j1;
+
+        for(int z = 0; z < mod_comp_1.size(); z++)
+        {
+            if(mod_1[i].id == mod_comp_1[z].id_module)
+            {
+                for(int j = 0; j < conf.size(); j++)
+                {
+                    if(mod_comp_1[z].id_competence == conf[j].compet_1)
+                    {
+                        if(conf[j].value_coef > max_coef)
+                        {
+                            max_coef = conf[j].value_coef;
+                            competence = conf[j].compet_2;
+                            number_z1 = z;
+                        }
+                    }
+                }
+            }
+        }
+
+        qDebug() << "First half calculate complete!" << max_coef << coef;
+
+        if(max_coef >= coef)
+        {
+            int number_j;
+            int number_z;
+            int hours = 0;
+
+            for(int j = 0; j < mod_comp_2.size(); j++)
+            {
+                if(mod_comp_2[j].id_competence == competence)
+                {
+                    for(int z = 0; z < mod_2.size(); z++)
+                    {
+                        if(mod_2[z].id == mod_comp_2[j].id_module)
+                        {
+                            if(mod_2[z].hours > hours)
+                            {
+                                hours = mod_2[z].hours;
+                                number_z = z;
+                                number_j = j;
+                            }
+                        }
+                    }
+                }
+            }
+
+            result_mod.push_back(mod_2[number_z]);
+
+            mod_2.erase(mod_2.begin() + number_z);
+            mod_comp_2.erase(mod_comp_2.begin() + number_j);
+            mod_comp_1.erase(mod_comp_1.begin() + number_z1);
+            mod_1.erase(mod_1.begin() + number_j1);
+
+            hours_full -= hours;
+        }
+
+        qDebug() << "Second half calculate complete!";
+
+        if(hours_full <= 0 || max_coef < coef)
+            break;
+    }
+
+    qDebug() << "Calculate complete!";
+
+    for(int i = 0; i < result_mod.size(); i++)
+        qDebug() << result_mod[i].id << result_mod[i].name << result_mod[i].hours << result_mod[i].discipline;
 }

@@ -49,6 +49,12 @@ void AdminMain::on_pushButton_clicked()
     Database mydb;
     mydb.LoadData(&db);
     mydb.Calculate(ui->spinBox_hours->value(), ui->doubleSpinBox_coeff->value());
+
+    ui->listWidget_Temu->clear();
+    for(int i = 0; i < mydb.result_mod.size(); i++)
+    {
+        ui->listWidget_Temu->addItem(mydb.result_mod[i].name);
+    }
 }
 
 void AdminMain::on_pushButton_2_clicked()
