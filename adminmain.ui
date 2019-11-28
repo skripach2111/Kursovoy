@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1436</width>
+    <width>1776</width>
     <height>460</height>
    </rect>
   </property>
@@ -14,6 +14,150 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
+   <item row="0" column="2">
+    <layout class="QHBoxLayout" name="Frame_2">
+     <item>
+      <widget class="QGroupBox" name="groupBox_Result">
+       <property name="contextMenuPolicy">
+        <enum>Qt::DefaultContextMenu</enum>
+       </property>
+       <property name="title">
+        <string>Результаты:</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="1" rowspan="2">
+         <layout class="QVBoxLayout" name="Frame_2_3">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QGroupBox" name="groupBox_Tests">
+            <property name="title">
+             <string>Тесты:</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <widget class="QScrollArea" name="scrollArea_2">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>240</width>
+                  <height>325</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="label_Tests">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="Frame_2_1">
+          <item alignment="Qt::AlignLeft">
+           <widget class="QGroupBox" name="groupBox_Zachet">
+            <property name="title">
+             <string>Перезачтено:</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0">
+              <widget class="QTableWidget" name="tableWidget_Zachet">
+               <property name="defaultDropAction">
+                <enum>Qt::IgnoreAction</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <column>
+                <property name="text">
+                 <string> Предмет</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignJustify|AlignVCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Кредиты </string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignTrailing|AlignVCenter</set>
+                </property>
+               </column>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="Frame_2_4">
+          <item>
+           <widget class="QPushButton" name="pushButton_Return">
+            <property name="text">
+             <string>&lt;- Вернуться</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_Gotovo">
+            <property name="text">
+             <string>Готово</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QVBoxLayout" name="Frame_2_2">
+          <item alignment="Qt::AlignLeft">
+           <widget class="QGroupBox" name="groupBox_Temu">
+            <property name="title">
+             <string>Модули:</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QListWidget" name="listWidget_Temu"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="Frame_1">
      <item>
@@ -37,6 +181,9 @@
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_Info">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Инфо:</string>
        </property>
@@ -67,8 +214,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>260</width>
-             <height>565</height>
+             <width>554</width>
+             <height>368</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -145,15 +292,18 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="groupBox_Visible_moduls">
               <property name="title">
                <string>Дополнительно:</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
                <item>
-                <widget class="QCheckBox" name="checkBox_4">
+                <widget class="QCheckBox" name="checkBox_Visble_Predmet">
                  <property name="text">
                   <string>Отобразить предметы</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -165,9 +315,12 @@
                  <property name="checkable">
                   <bool>true</bool>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                  <layout class="QVBoxLayout" name="verticalLayout_3">
                   <item>
-                   <widget class="QRadioButton" name="radioButton_3">
+                   <widget class="QRadioButton" name="radioButton_Otdelno">
                     <property name="text">
                      <string>Отдельно для предмета</string>
                     </property>
@@ -177,7 +330,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="radioButton_4">
+                   <widget class="QRadioButton" name="radioButton_All">
                     <property name="text">
                      <string>Весь список</string>
                     </property>
@@ -187,14 +340,26 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox">
+                <widget class="QCheckBox" name="checkBox_Form_Quest">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
                  <property name="text">
                   <string>Сформировать вопросы</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_2">
+                <widget class="QCheckBox" name="checkBox_Info_Module">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
                   <string>Отображать информацию о модуле</string>
                  </property>
@@ -205,66 +370,11 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="checkBox_3">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
                   <string>Отображать информацию о предмете</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_3">
-              <property name="title">
-               <string>Что-то ещё..</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <widget class="QRadioButton" name="radioButton">
-                 <property name="text">
-                  <string>RadioButton</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="radioButton_2">
-                 <property name="text">
-                  <string>RadioButton</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_8">
-                 <property name="text">
-                  <string>CheckBox</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_9">
-                 <property name="text">
-                  <string>CheckBox</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_10">
-                 <property name="text">
-                  <string>CheckBox</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_11">
-                 <property name="text">
-                  <string>CheckBox</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_12">
-                 <property name="text">
-                  <string>CheckBox</string>
                  </property>
                 </widget>
                </item>
@@ -315,121 +425,6 @@
             <property name="text">
              <string>Применить</string>
             </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="2">
-    <layout class="QHBoxLayout" name="Frame_2">
-     <item>
-      <widget class="QGroupBox" name="groupBox_Result">
-       <property name="contextMenuPolicy">
-        <enum>Qt::DefaultContextMenu</enum>
-       </property>
-       <property name="title">
-        <string>Результаты:</string>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="1" rowspan="2">
-         <layout class="QVBoxLayout" name="Frame_2_3">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetDefaultConstraint</enum>
-          </property>
-          <item>
-           <widget class="QGroupBox" name="groupBox_Tests">
-            <property name="title">
-             <string>Тесты:</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_3">
-             <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="plainTextEdit_Tests"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="Frame_2_1">
-          <item alignment="Qt::AlignLeft">
-           <widget class="QGroupBox" name="groupBox_Zachet">
-            <property name="title">
-             <string>Перезачтено:</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout">
-             <item row="0" column="0">
-              <widget class="QTableWidget" name="tableWidget_Zachet">
-               <column>
-                <property name="text">
-                 <string> Предмет</string>
-                </property>
-                <property name="textAlignment">
-                 <set>AlignJustify|AlignVCenter</set>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Кредиты </string>
-                </property>
-                <property name="textAlignment">
-                 <set>AlignTrailing|AlignVCenter</set>
-                </property>
-               </column>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="Frame_2_4">
-          <item>
-           <widget class="QPushButton" name="pushButton_Return">
-            <property name="text">
-             <string>&lt;- Вернуться</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_Gotovo">
-            <property name="text">
-             <string>Готово</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <layout class="QVBoxLayout" name="Frame_2_2">
-          <item alignment="Qt::AlignLeft">
-           <widget class="QGroupBox" name="groupBox_Temu">
-            <property name="title">
-             <string>Темы:</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <widget class="QListWidget" name="listWidget_Temu"/>
-             </item>
-            </layout>
            </widget>
           </item>
          </layout>

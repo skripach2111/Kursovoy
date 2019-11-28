@@ -29,6 +29,14 @@ struct Mod_Comp
     QString id_competence;
 };
 
+struct Question
+{
+    QString id_compet;
+    QString text;
+    QString a, b, c, d;
+    QString answer_true;
+};
+
 class Database
 {
 public:
@@ -37,8 +45,10 @@ public:
     vector <Conformity> conf;
     vector <Mod_Comp> mod_comp_1;
     vector <Mod_Comp> mod_comp_2;
+    vector <Question> question;
 
     vector <Module> result_mod;
+    vector <Question> result_question;
 
     void LoadData(QSqlDatabase *db);
     void Calculate(int hourse, float coef);

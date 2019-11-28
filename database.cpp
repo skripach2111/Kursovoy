@@ -84,6 +84,27 @@ void Database::LoadData(QSqlDatabase *db)
 
         qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toFloat();
     }
+
+
+
+    Question temp_quest;
+
+    query.exec("select * from question");
+
+    while (query.next())
+    {
+        temp_quest.id_compet = query.value(1).toString();
+        temp_quest.text = query.value(2).toString();
+        temp_quest.a = query.value(3).toString();
+        temp_quest.b = query.value(4).toString();
+        temp_quest.c = query.value(5).toString();
+        temp_quest.d = query.value(6).toString();
+        temp_quest.answer_true = query.value(7).toString();
+
+        question.push_back(temp_quest);
+
+        qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() << query.value(3).toString() << query.value(4).toString() << query.value(5).toString() << query.value(6).toString() << query.value(7).toString();
+    }
 }
 
 void Database::Calculate(int hours_full, float coef)
@@ -197,6 +218,20 @@ void Database::Calculate(int hours_full, float coef)
             }
 
             result_mod.push_back(mod_2[number_z]);
+
+
+            for(int z = 0; z < mod_comp_2.size(); z++)
+            {
+                if(mod_2[number_z].id == mod_comp_2[z].id_module)
+                {
+                    for(int j = 0; j < question.size(); j++)
+                    {
+                        if(mod_comp_2[z].id_competence == question[j].id_compet)
+                            result_question.push_back(question[j]);
+                    }
+                }
+            }
+
 
             mod_2.erase(mod_2.begin() + number_z);
             mod_comp_2.erase(mod_comp_2.begin() + number_j);
