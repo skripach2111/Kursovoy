@@ -176,11 +176,14 @@ void AdminMain::on_pushButton_Gotovo_clicked()
 
 void AdminMain::on_tableWidget_Zachet_cellClicked(int row, int column)
 {
-    ui->listWidget_Temu->clear();
-
-    for(int i = 0; i < mydb.result_mod.size(); i++)
+    if(ui->radioButton_Otdelno->isChecked())
     {
-        if(mydb.result_mod[i].discipline == ui->tableWidget_Zachet->selectedItems()[0]->text())
-            ui->listWidget_Temu->addItem(mydb.result_mod[i].name);
+        ui->listWidget_Temu->clear();
+
+        for(int i = 0; i < mydb.result_mod.size(); i++)
+        {
+            if(mydb.result_mod[i].discipline == ui->tableWidget_Zachet->selectedItems()[0]->text())
+                ui->listWidget_Temu->addItem(mydb.result_mod[i].name);
+        }
     }
 }

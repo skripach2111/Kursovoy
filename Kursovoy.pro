@@ -39,3 +39,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 INCLUDEPATH+=include
 LIBS+=C:\Windows\libmysql.lib
+
+RESOURCES += \
+    qdarkstyle/style.qrc
