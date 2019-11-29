@@ -7,7 +7,7 @@ AdminMain::AdminMain(QWidget *parent) :
     ui(new Ui::AdminMain)
 {
     ui->setupUi(this);
-    this->resize(560, 600);
+    this->resize(800, 600);
 }
 
 AdminMain::~AdminMain()
@@ -120,11 +120,13 @@ void AdminMain::on_pushButton_clicked()
 
         for(int i = 0; i < mydb.result_question.size(); i++)
         {
-            ui->label_Tests->setText(ui->label_Tests->text() + "\n" + QVariant(i+1).toString() + ". " + mydb.result_question[i].text + "\n" + mydb.result_question[i].a + "\n" + mydb.result_question[i].b + "\n" + mydb.result_question[i].c + "\n" + mydb.result_question[i].d + "\n");
+            ui->label_Tests->setText(ui->label_Tests->text() + "\n" + QVariant(i+1).toString() + ". " + mydb.result_question[i].text + "\na) " + mydb.result_question[i].a + "\nb) " + mydb.result_question[i].b + "\nc) " + mydb.result_question[i].c + "\nd) " + mydb.result_question[i].d + "\n");
         }
     }
     else
+    {
         ui->groupBox_Tests->setVisible(false);
+    }
 
     ui->groupBox_Result->setVisible(true);
     ui->groupBox_Info->setVisible(false);
