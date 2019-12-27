@@ -8,6 +8,8 @@ AdminMain::AdminMain(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(800, 600);
+
+    connect(ui->pushButton_ExportDoc, SIGNAL(clicked()), this, SLOT(slotPushButtonExportDoc_clicked()));
 }
 
 AdminMain::~AdminMain()
@@ -22,11 +24,15 @@ void AdminMain::takeConnect(QSqlDatabase d)
     ui->groupBox_Settings->setVisible(false);
 
     db = d;
+    qDebug() << db.userName();
+
     if(db.open())
     {
         qDebug() << "Connect to database!";
         QSqlQuery query;
-        query.exec("SELECT * FROM study.databases");
+        query.prepare("SELECT database_name FROM study.user_database WHERE user_name = :user");
+        query.bindValue(":user", db.userName());
+        query.exec();
 
         while (query.next())
         {
@@ -188,4 +194,23 @@ void AdminMain::on_tableWidget_Zachet_cellClicked(int row, int column)
                 ui->listWidget_Temu->addItem(mydb.result_mod[i].name);
         }
     }
+}
+
+void AdminMain::slotPushButtonExportDoc_clicked()
+{
+    QAxObject *pword = new QAxObject("Word.Application");
+    QAxObject *pdoc = pword->querySubObject("Documents");
+    pdoc = pdoc->querySubObject("Add()");
+
+    QAxObject *prange = pdoc->querySubObject("Range()");
+    prange->dynamicCall("SetRange(int, int)", 0, 100);
+    prange->setProperty("Text", ui->label_Tests->text());
+
+    QAxObject *pfont = prange->querySubObject("Font");
+    pfont->setProperty("Size", 14);
+    pfont->setProperty("Name", "Times New Roman");
+
+    pword->setProperty("Visible", true);
+
+    //pdoc->dynamicCall("SaveAs()", "tests", "doc");
 }

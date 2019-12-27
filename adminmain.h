@@ -5,6 +5,8 @@
 #include <QtSql>
 #include <QDebug>
 #include <QVariant>
+#include <QAxObject>
+#include
 
 #include "database.h"
 
@@ -18,6 +20,7 @@ class AdminMain : public QDialog
 
     QSqlDatabase db;
     Database mydb;
+
 
 public:
     explicit AdminMain(QWidget *parent = nullptr);
@@ -39,6 +42,7 @@ private slots:
 //    void on_tableWidget_Zachet_itemClicked(QTableWidgetItem *item);
 
     void on_tableWidget_Zachet_cellClicked(int row, int column);
+    void slotPushButtonExportDoc_clicked();
 
 private:
     Ui::AdminMain *ui;

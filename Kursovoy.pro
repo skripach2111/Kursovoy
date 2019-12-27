@@ -1,6 +1,10 @@
 QT       += core gui
 QT       += core sql
-#TARGET = qsqlmysql
+QT       += axcontainer
+QT       += WebKit
+
+TARGET = word
+TEMPLATE = app
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
