@@ -1,7 +1,8 @@
 QT       += core gui
 QT       += core sql
 QT       += axcontainer
-QT       += WebKit
+QT       += printsupport
+#QT       += webkitwidgets
 
 TARGET = word
 TEMPLATE = app

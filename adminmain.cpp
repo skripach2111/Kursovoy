@@ -214,3 +214,27 @@ void AdminMain::slotPushButtonExportDoc_clicked()
 
     //pdoc->dynamicCall("SaveAs()", "tests", "doc");
 }
+
+void AdminMain::on_pushButton_ExportPdf_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "%HOMEPATH%\\test", QString(), "*.pdf");
+        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(fileName); // устанавливаем путь к pdf файлу
+
+    QTextDocument doc;
+    //doc.setHtml("<h1>" + ui->label_Tests->text() + "</h1>");
+    doc.setPlainText(ui->label_Tests->text());
+    doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+    doc.print(&printer);
+
+    //    // работаем с отрисовкой pdf через QPainter
+    //    QPainter p(&printer);
+    //    // выполняем действия с p
+    //    p.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    //    p.drawText(0, 0, ui->label_Tests->text());
+    //    p.end();
+}

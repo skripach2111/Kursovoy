@@ -6,7 +6,9 @@
 #include <QDebug>
 #include <QVariant>
 #include <QAxObject>
-#include
+#include <QPrinter>
+#include <QPainter>
+#include <QFileDialog>
 
 #include "database.h"
 
@@ -20,6 +22,7 @@ class AdminMain : public QDialog
 
     QSqlDatabase db;
     Database mydb;
+    QPrinter printer;
 
 
 public:
@@ -43,6 +46,8 @@ private slots:
 
     void on_tableWidget_Zachet_cellClicked(int row, int column);
     void slotPushButtonExportDoc_clicked();
+
+    void on_pushButton_ExportPdf_clicked();
 
 private:
     Ui::AdminMain *ui;
