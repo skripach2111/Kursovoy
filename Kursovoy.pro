@@ -1,6 +1,6 @@
 QT       += core gui
 QT       += core sql
-QT       += axcontainer
+#QT       += axcontainer
 QT       += printsupport
 #QT       += webkitwidgets
 
@@ -26,16 +26,19 @@ SOURCES += \
     adminmain.cpp \
     database.cpp \
     main.cpp \
-    authorization.cpp
+    authorization.cpp \
+    adddb_dialog.cpp
 
 HEADERS += \
     adminmain.h \
     authorization.h \
-    database.h
+    database.h \
+    adddb_dialog.h
 
 FORMS += \
     adminmain.ui \
-    authorization.ui
+    authorization.ui \
+    adddb_dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -43,7 +46,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 INCLUDEPATH+=include
-LIBS+=C:\Windows\libmysql.lib
+#LIBS+=C:\Windows\libmysql.lib
 
 RESOURCES += \
     qdarkstyle/style.qrc

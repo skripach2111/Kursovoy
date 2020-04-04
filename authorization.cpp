@@ -25,7 +25,7 @@ void Authorization::on_pushButton_Entry_clicked()
 {
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setDatabaseName("study");
-    db.setHostName("127.0.0.1");
+    db.setHostName("192.168.0.77");
     db.setUserName(ui->lineEdit_Login->text());
     db.setPassword(ui->lineEdit_Password->text());
     db.setPort(3306);

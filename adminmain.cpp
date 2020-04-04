@@ -198,19 +198,19 @@ void AdminMain::on_tableWidget_Zachet_cellClicked(int row, int column)
 
 void AdminMain::slotPushButtonExportDoc_clicked()
 {
-    QAxObject *pword = new QAxObject("Word.Application");
-    QAxObject *pdoc = pword->querySubObject("Documents");
-    pdoc = pdoc->querySubObject("Add()");
+//    QAxObject *pword = new QAxObject("Word.Application");
+//    QAxObject *pdoc = pword->querySubObject("Documents");
+//    pdoc = pdoc->querySubObject("Add()");
 
-    QAxObject *prange = pdoc->querySubObject("Range()");
-    prange->dynamicCall("SetRange(int, int)", 0, 100);
-    prange->setProperty("Text", ui->label_Tests->text());
+//    QAxObject *prange = pdoc->querySubObject("Range()");
+//    prange->dynamicCall("SetRange(int, int)", 0, 100);
+//    prange->setProperty("Text", ui->label_Tests->text());
 
-    QAxObject *pfont = prange->querySubObject("Font");
-    pfont->setProperty("Size", 14);
-    pfont->setProperty("Name", "Times New Roman");
+//    QAxObject *pfont = prange->querySubObject("Font");
+//    pfont->setProperty("Size", 14);
+//    pfont->setProperty("Name", "Times New Roman");
 
-    pword->setProperty("Visible", true);
+//    pword->setProperty("Visible", true);
 
     //pdoc->dynamicCall("SaveAs()", "tests", "doc");
 }

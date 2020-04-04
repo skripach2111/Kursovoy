@@ -5,7 +5,7 @@
 #include <QtSql>
 #include <QDebug>
 #include <QVariant>
-#include <QAxObject>
+//#include <QAxObject>
 #include <QPrinter>
 #include <QPainter>
 #include <QFileDialog>
