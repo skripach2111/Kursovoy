@@ -50,7 +50,7 @@ public:
     vector <Module> result_mod;
     vector <Question> result_question;
 
-    void LoadData(QSqlDatabase *db);
+    bool LoadData(QSqlDatabase *db);
     void Calculate(int hourse, float coef);
 
     Database();

@@ -18,5 +18,7 @@ int main(int argc, char *argv[])
 
     Authorization auth;
     auth.show();
+
+
     return a.exec();
 }

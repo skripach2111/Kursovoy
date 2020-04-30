@@ -7,9 +7,11 @@ AdminMain::AdminMain(QWidget *parent) :
     ui(new Ui::AdminMain)
 {
     ui->setupUi(this);
-    this->resize(800, 600);
+    //this->resize(800, 600);
 
-    connect(ui->pushButton_ExportDoc, SIGNAL(clicked()), this, SLOT(slotPushButtonExportDoc_clicked()));
+    //connect(ui->pushButton_ExportDoc, SIGNAL(clicked()), this, SLOT(slotPushButtonExportDoc_clicked()));
+
+    connect(ui->commandLinkButton_AddNewDB, SIGNAL(clicked()), this, SLOT(slotAddNewDB()));
 }
 
 AdminMain::~AdminMain()
@@ -18,13 +20,12 @@ AdminMain::~AdminMain()
 }
 
 
-void AdminMain::takeConnect(QSqlDatabase d)
+bool AdminMain::takeConnect(QSqlDatabase d)
 {
-    ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Settings->setVisible(false);
-
     db = d;
     qDebug() << db.userName();
+
+    this->setWindowTitle(db.userName()+"::Админ");
 
     if(db.open())
     {
@@ -40,17 +41,15 @@ void AdminMain::takeConnect(QSqlDatabase d)
 
             qDebug() << query.value(0).toString() << endl;
         }
+
+        return true;
     }
+
+    return false;
 }
 
 void AdminMain::on_pushButton_clicked()
 {
-    db.setDatabaseName(ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text());
-    qDebug() << ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text();
-
-    Database d;
-    mydb = d;
-    mydb.LoadData(&db);
     mydb.Calculate(ui->spinBox_hours->value(), ui->doubleSpinBox_coeff->value());
 
     ui->listWidget_Temu->clear();
@@ -134,41 +133,40 @@ void AdminMain::on_pushButton_clicked()
         ui->groupBox_Tests->setVisible(false);
     }
 
-    ui->groupBox_Result->setVisible(true);
-    ui->groupBox_Info->setVisible(false);
-    ui->groupBox_Databases->setVisible(false);
-    ui->groupBox_Settings->setVisible(false);
+    ui->stackedWidget_MainWidget->setCurrentIndex(2);
 }
 
 void AdminMain::on_pushButton_2_clicked()
 {
-    ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Info->setVisible(true);
-    ui->groupBox_Databases->setVisible(true);
-    ui->groupBox_Settings->setVisible(false);
+    ui->stackedWidget_MainWidget->setCurrentIndex(0);
 }
 
 void AdminMain::on_pushButton_Return_clicked()
 {
-    ui->groupBox_Databases->setVisible(false);
-    ui->groupBox_Info->setVisible(false);
-    ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Settings->setVisible(true);
+    ui->stackedWidget_MainWidget->setCurrentIndex(1);
 }
 
 void AdminMain::on_pushButton_Open_clicked()
 {
-    ui->groupBox_Databases->setVisible(false);
-    ui->groupBox_Info->setVisible(false);
-    ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Settings->setVisible(true);
+    db.setDatabaseName(ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text());
+    qDebug() << ui->listWidget_Databases->item(ui->listWidget_Databases->currentRow())->text();
+
+    Database d;
+    mydb = d;
+
+    if(mydb.LoadData(&db))
+        ui->stackedWidget_MainWidget->setCurrentIndex(1);
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Невозможно извлечь информаию из базы данных!\n");
+        msgBox.exec();
+    }
 }
 
 void AdminMain::on_pushButton_Gotovo_clicked()
 {
-    ui->groupBox_Result->setVisible(false);
-    ui->groupBox_Info->setVisible(true);
-    ui->groupBox_Databases->setVisible(true);
+    ui->stackedWidget_MainWidget->setCurrentIndex(0);
 }
 
 //void AdminMain::on_tableWidget_Zachet_itemClicked(QTableWidgetItem *item)

@@ -5,110 +5,138 @@ Database::Database()
 
 }
 
-void Database::LoadData(QSqlDatabase *db)
+bool Database::LoadData(QSqlDatabase *db)
 {
-    db->open();
-
-    QSqlQuery query;
-    query.exec("select module.id_module, module.name_module, module.hours_module, discipline.name_discipline from module, discipline where discipline.id_discipline = module.id_discipline group by module.id_module;");
-
-    Module temp;
-
-    while (query.next())
+    if(db->open())
     {
-        temp.id = query.value(0).toString();
-        temp.name = query.value(1).toString();
-        temp.hours = query.value(2).toInt();
-        temp.discipline = query.value(3).toString();
 
-        mod_1.push_back(temp);
+        QSqlQuery query;
+        query.exec("select module.id_module, module.name_module, module.hours_module, discipline.name_discipline from module, discipline where discipline.id_discipline = module.id_discipline group by module.id_module;");
 
-        qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toInt() << query.value(3).toString();
+        if(!query.size())
+            return false;
+
+        Module temp;
+
+        while (query.next())
+        {
+            temp.id = query.value(0).toString();
+            temp.name = query.value(1).toString();
+            temp.hours = query.value(2).toInt();
+            temp.discipline = query.value(3).toString();
+
+            mod_1.push_back(temp);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toInt() << query.value(3).toString();
+        }
+
+        query.exec("select module_2.id_module_2, module_2.name_module_2, module_2.hours_module_2, discipline_2.name_discipline_2 from module_2, discipline_2 where discipline_2.id_discipline_2 = module_2.id_discipline_2 group by module_2.id_module_2;");
+
+        if(!query.size())
+            return false;
+
+        while (query.next())
+        {
+            temp.id = query.value(0).toString();
+            temp.name = query.value(1).toString();
+            temp.hours = query.value(2).toInt();
+            temp.discipline = query.value(3).toString();
+
+            mod_2.push_back(temp);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toInt() << query.value(3).toString();
+        }
+
+
+
+        Mod_Comp temp_MC;
+
+        query.exec("select * from mod_comp;");
+
+        if(!query.size())
+            return false;
+
+        while (query.next())
+        {
+            temp_MC.id_module = query.value(0).toString();
+            temp_MC.id_competence = query.value(1).toString();
+
+            mod_comp_1.push_back(temp_MC);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString();
+        }
+
+        query.exec("select * from mod_comp_2;");
+
+        if(!query.size())
+            return false;
+
+        while (query.next())
+        {
+            temp_MC.id_module = query.value(0).toString();
+            temp_MC.id_competence = query.value(1).toString();
+
+            mod_comp_2.push_back(temp_MC);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString();
+        }
+
+
+
+        Conformity temp_conf;
+
+        query.exec("select id_compet, id_compet_2, value_coeff from conformity;");
+
+        if(!query.size())
+            return false;
+
+        while (query.next())
+        {
+            temp_conf.compet_1 = query.value(0).toString();
+            temp_conf.compet_2 = query.value(1).toString();
+            temp_conf.value_coef = query.value(2).toFloat();
+
+            conf.push_back(temp_conf);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toFloat();
+        }
+
+
+
+        Question temp_quest;
+
+        query.exec("select * from question");
+
+        if(!query.size())
+            return false;
+
+        while (query.next())
+        {
+            temp_quest.id_compet = query.value(1).toString();
+            temp_quest.text = query.value(2).toString();
+            temp_quest.a = query.value(3).toString();
+            temp_quest.b = query.value(4).toString();
+            temp_quest.c = query.value(5).toString();
+            temp_quest.d = query.value(6).toString();
+            temp_quest.answer_true = query.value(7).toString();
+
+            question.push_back(temp_quest);
+
+            qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() << query.value(3).toString() << query.value(4).toString() << query.value(5).toString() << query.value(6).toString() << query.value(7).toString();
+        }
+
+        return true;
     }
+    else
+        return false;
 
-    query.exec("select module_2.id_module_2, module_2.name_module_2, module_2.hours_module_2, discipline_2.name_discipline_2 from module_2, discipline_2 where discipline_2.id_discipline_2 = module_2.id_discipline_2 group by module_2.id_module_2;");
-
-    while (query.next())
-    {
-        temp.id = query.value(0).toString();
-        temp.name = query.value(1).toString();
-        temp.hours = query.value(2).toInt();
-        temp.discipline = query.value(3).toString();
-
-        mod_2.push_back(temp);
-
-        qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toInt() << query.value(3).toString();
-    }
-
-
-
-    Mod_Comp temp_MC;
-
-    query.exec("select * from mod_comp;");
-
-    while (query.next())
-    {
-        temp_MC.id_module = query.value(0).toString();
-        temp_MC.id_competence = query.value(1).toString();
-
-        mod_comp_1.push_back(temp_MC);
-
-        qDebug() << query.value(0).toString() << query.value(1).toString();
-    }
-
-    query.exec("select * from mod_comp_2;");
-
-    while (query.next())
-    {
-        temp_MC.id_module = query.value(0).toString();
-        temp_MC.id_competence = query.value(1).toString();
-
-        mod_comp_2.push_back(temp_MC);
-
-        qDebug() << query.value(0).toString() << query.value(1).toString();
-    }
-
-
-
-    Conformity temp_conf;
-
-    query.exec("select id_compet, id_compet_2, value_coeff from conformity;");
-
-    while (query.next())
-    {
-        temp_conf.compet_1 = query.value(0).toString();
-        temp_conf.compet_2 = query.value(1).toString();
-        temp_conf.value_coef = query.value(2).toFloat();
-
-        conf.push_back(temp_conf);
-
-        qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toFloat();
-    }
-
-
-
-    Question temp_quest;
-
-    query.exec("select * from question");
-
-    while (query.next())
-    {
-        temp_quest.id_compet = query.value(1).toString();
-        temp_quest.text = query.value(2).toString();
-        temp_quest.a = query.value(3).toString();
-        temp_quest.b = query.value(4).toString();
-        temp_quest.c = query.value(5).toString();
-        temp_quest.d = query.value(6).toString();
-        temp_quest.answer_true = query.value(7).toString();
-
-        question.push_back(temp_quest);
-
-        qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() << query.value(3).toString() << query.value(4).toString() << query.value(5).toString() << query.value(6).toString() << query.value(7).toString();
-    }
 }
 
 void Database::Calculate(int hours_full, float coef)
 {
+    result_mod.clear();
+    result_question.clear();
+
     for(int i = 0; i < conf.size()-1; i++)
         for(int j = i; j < conf.size(); j++)
             if(conf[i].value_coef < conf[j].value_coef)

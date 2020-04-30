@@ -9,8 +9,10 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "database.h"
+
 
 namespace Ui {
 class AdminMain;
@@ -29,7 +31,7 @@ public:
     explicit AdminMain(QWidget *parent = nullptr);
     ~AdminMain();
 
-    void takeConnect(QSqlDatabase d);
+    bool takeConnect(QSqlDatabase d);
 
 private slots:
     void on_pushButton_clicked();
@@ -46,6 +48,7 @@ private slots:
 
     void on_tableWidget_Zachet_cellClicked(int row, int column);
     void slotPushButtonExportDoc_clicked();
+    void slotAddNewDB();
 
     void on_pushButton_ExportPdf_clicked();
 
