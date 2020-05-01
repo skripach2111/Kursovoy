@@ -12,6 +12,7 @@
 #include <QMessageBox>
 
 #include "database.h"
+#include "dropbuttondb.h"
 
 
 namespace Ui {

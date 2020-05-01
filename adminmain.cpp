@@ -11,7 +11,7 @@ AdminMain::AdminMain(QWidget *parent) :
 
     //connect(ui->pushButton_ExportDoc, SIGNAL(clicked()), this, SLOT(slotPushButtonExportDoc_clicked()));
 
-    connect(ui->commandLinkButton_AddNewDB, SIGNAL(clicked()), this, SLOT(slotAddNewDB()));
+    //connect(ui->commandLinkButton_AddNewDB, SIGNAL(clicked()), this, SLOT(slotAddNewDB()));
 }
 
 AdminMain::~AdminMain()
@@ -236,3 +236,6 @@ void AdminMain::on_pushButton_ExportPdf_clicked()
     //    p.drawText(0, 0, ui->label_Tests->text());
     //    p.end();
 }
+
+void AdminMain::slotAddNewDB()
+{};

@@ -25,6 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     adminmain.cpp \
     database.cpp \
+    dropbuttondb.cpp \
+    dropmenudb.cpp \
     main.cpp \
     authorization.cpp \
     adddb_dialog.cpp
@@ -33,12 +35,16 @@ HEADERS += \
     adminmain.h \
     authorization.h \
     database.h \
-    adddb_dialog.h
+    adddb_dialog.h \
+    dropbuttondb.h \
+    dropmenudb.h
 
 FORMS += \
     adminmain.ui \
     authorization.ui \
-    adddb_dialog.ui
+    adddb_dialog.ui \
+    dropbuttondb.ui \
+    dropmenudb.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
