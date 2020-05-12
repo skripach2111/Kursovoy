@@ -29,6 +29,8 @@ SOURCES += \
     dropbuttondb.cpp \
     dropmenudb.cpp \
     groupbox_leapbuttons.cpp \
+    informationdb_dialog.cpp \
+    informationuser_dialog.cpp \
     leapbutton.cpp \
     main.cpp \
     authorization.cpp \
@@ -43,6 +45,8 @@ HEADERS += \
     dropbuttondb.h \
     dropmenudb.h \
     groupbox_leapbuttons.h \
+    informationdb_dialog.h \
+    informationuser_dialog.h \
     leapbutton.h
 
 FORMS += \
@@ -53,6 +57,8 @@ FORMS += \
     dropbuttondb.ui \
     dropmenudb.ui \
     groupbox_leapbuttons.ui \
+    informationdb_dialog.ui \
+    informationuser_dialog.ui \
     leapbutton.ui
 
 # Default rules for deployment.
