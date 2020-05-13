@@ -34,7 +34,8 @@ SOURCES += \
     leapbutton.cpp \
     main.cpp \
     authorization.cpp \
-    adddb_dialog.cpp
+    adddb_dialog.cpp \
+    usersselectiondialog.cpp
 
 HEADERS += \
     adminmain.h \
@@ -47,7 +48,8 @@ HEADERS += \
     groupbox_leapbuttons.h \
     informationdb_dialog.h \
     informationuser_dialog.h \
-    leapbutton.h
+    leapbutton.h \
+    usersselectiondialog.h
 
 FORMS += \
     adminmain.ui \
@@ -59,7 +61,8 @@ FORMS += \
     groupbox_leapbuttons.ui \
     informationdb_dialog.ui \
     informationuser_dialog.ui \
-    leapbutton.ui
+    leapbutton.ui \
+    usersselectiondialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
