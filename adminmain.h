@@ -12,7 +12,9 @@
 #include <QMessageBox>
 
 #include "database.h"
+#include "databasebuffer.h"
 #include "dropbuttondb.h"
+#include "usersselectiondialog.h"
 
 
 namespace Ui {
@@ -27,12 +29,17 @@ class AdminMain : public QDialog
     Database mydb;
     QPrinter printer;
 
+    DatabaseBuffer db_buffer;
+
 
 public:
     explicit AdminMain(QWidget *parent = nullptr);
     ~AdminMain();
 
     bool takeConnect(QSqlDatabase d);
+
+public slots:
+    void slot_getInfoFrom_UserSelectionDialog(QList <QString> resultList);
 
 private slots:
     void on_pushButton_clicked();
@@ -52,6 +59,26 @@ private slots:
     void slotAddNewDB();
 
     void on_pushButton_ExportPdf_clicked();
+
+    void on_commandLinkButton_AddNewDB_clicked();
+
+    void on_commandLinkButton_ViewDBs_clicked();
+
+    void on_commandLinkButton_AddNewUser_clicked();
+
+    void on_commandLinkButton_ViewUsers_clicked();
+
+    void on_lineEdit_NameDB_editingFinished();
+
+    void on_pushButton_AddNewDB_Next_1_clicked();
+
+    void on_pushButton_InMainPage_DB_clicked();
+
+    void on_pushButton_AddMoreDB_clicked();
+
+    void on_pushButton_ChangeUsers_clicked();
+
+    void on_plainTextEdit_InformationDB_textChanged();
 
 private:
     Ui::AdminMain *ui;

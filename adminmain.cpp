@@ -30,17 +30,20 @@ bool AdminMain::takeConnect(QSqlDatabase d)
     if(db.open())
     {
         qDebug() << "Connect to database!";
-        QSqlQuery query;
-        query.prepare("SELECT database_name FROM study.user_database WHERE user_name = :user");
-        query.bindValue(":user", db.userName());
-        query.exec();
+        //        QSqlQuery query;
+        //        query.prepare("SELECT database_name FROM study.user_database WHERE user_name = :user");
+        //        query.bindValue(":user", db.userName());
+        //        query.exec();
 
-        while (query.next())
-        {
-            ui->listWidget_Databases->addItem(query.value(0).toString());
+        ui->stackedWidget_WorkSpace->setCurrentIndex(0);
+        db_buffer.setDB(&db);
 
-            qDebug() << query.value(0).toString() << endl;
-        }
+        //        while (query.next())
+        //        {
+        //            ui->listWidget_Databases->addItem(query.value(0).toString());
+
+        //            qDebug() << query.value(0).toString() << endl;
+        //        }
 
         return true;
     }
@@ -196,19 +199,19 @@ void AdminMain::on_tableWidget_Zachet_cellClicked(int row, int column)
 
 void AdminMain::slotPushButtonExportDoc_clicked()
 {
-//    QAxObject *pword = new QAxObject("Word.Application");
-//    QAxObject *pdoc = pword->querySubObject("Documents");
-//    pdoc = pdoc->querySubObject("Add()");
+    //    QAxObject *pword = new QAxObject("Word.Application");
+    //    QAxObject *pdoc = pword->querySubObject("Documents");
+    //    pdoc = pdoc->querySubObject("Add()");
 
-//    QAxObject *prange = pdoc->querySubObject("Range()");
-//    prange->dynamicCall("SetRange(int, int)", 0, 100);
-//    prange->setProperty("Text", ui->label_Tests->text());
+    //    QAxObject *prange = pdoc->querySubObject("Range()");
+    //    prange->dynamicCall("SetRange(int, int)", 0, 100);
+    //    prange->setProperty("Text", ui->label_Tests->text());
 
-//    QAxObject *pfont = prange->querySubObject("Font");
-//    pfont->setProperty("Size", 14);
-//    pfont->setProperty("Name", "Times New Roman");
+    //    QAxObject *pfont = prange->querySubObject("Font");
+    //    pfont->setProperty("Size", 14);
+    //    pfont->setProperty("Name", "Times New Roman");
 
-//    pword->setProperty("Visible", true);
+    //    pword->setProperty("Visible", true);
 
     //pdoc->dynamicCall("SaveAs()", "tests", "doc");
 }
@@ -216,7 +219,7 @@ void AdminMain::slotPushButtonExportDoc_clicked()
 void AdminMain::on_pushButton_ExportPdf_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "%HOMEPATH%\\test", QString(), "*.pdf");
-        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
@@ -239,3 +242,176 @@ void AdminMain::on_pushButton_ExportPdf_clicked()
 
 void AdminMain::slotAddNewDB()
 {};
+
+void AdminMain::on_commandLinkButton_AddNewDB_clicked()
+{
+    db_buffer.DownloadUsers();
+    db_buffer.DownloadDatabaseName();
+    ui->stackedWidget_WorkSpace->setCurrentIndex(1);
+}
+
+void AdminMain::on_commandLinkButton_ViewDBs_clicked()
+{
+    ui->stackedWidget_WorkSpace->setCurrentIndex(3);
+}
+
+void AdminMain::on_commandLinkButton_AddNewUser_clicked()
+{
+    ui->stackedWidget_WorkSpace->setCurrentIndex(4);
+}
+
+void AdminMain::on_commandLinkButton_ViewUsers_clicked()
+{
+    ui->stackedWidget_WorkSpace->setCurrentIndex(6);
+}
+
+void AdminMain::on_lineEdit_NameDB_editingFinished()
+{
+    if(db_buffer.FindDatabaseName(ui->lineEdit_NameDB->text()))
+    {
+        if(ui->lineEdit_NameDB->text().size() != 0)
+            ui->label_WarningsNameDB->setText("База данных с таким названием уже существует!");
+        else
+            ui->label_WarningsNameDB->setText("Название не введено!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(false);
+    }
+    else
+    {
+        ui->label_WarningsNameDB->setText("Название базы данных введено верно!");
+
+        if(!ui->plainTextEdit_InformationDB->toPlainText().size())
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация не введена.\nРекомендуется внести данные, которые помогут пользователю работать с ней.");
+        else
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация введена!");
+
+        if(!ui->tableWidget_Users->rowCount())
+            ui->label_WarningsUsers->setText("Не назначены пользователи, которые могут редактировать БД.\nРекомендуется сразу внести эту информацию, чтобы пользователи могли сразу приступить к работе.");
+        else
+            ui->label_WarningsUsers->setText("Редакторы назначены!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(true);
+    }
+}
+
+void AdminMain::on_pushButton_AddNewDB_Next_1_clicked()
+{
+    ui->stackedWidget_WorkSpace->setCurrentIndex(2);
+}
+
+void AdminMain::on_pushButton_InMainPage_DB_clicked()
+{
+    ui->stackedWidget_WorkSpace->setCurrentIndex(0);
+}
+
+void AdminMain::on_pushButton_AddMoreDB_clicked()
+{
+    ui->commandLinkButton_AddNewDB->clicked();
+}
+
+void AdminMain::on_pushButton_ChangeUsers_clicked()
+{
+    UsersSelectionDialog *SelectionDialog = new UsersSelectionDialog;
+    SelectionDialog->setTables(db_buffer.getUsersList());
+    connect(SelectionDialog, SIGNAL(takeResult(QList <QString>)), this, SLOT(slot_getInfoFrom_UserSelectionDialog(QList <QString>)));
+    SelectionDialog->exec();
+}
+
+void AdminMain::slot_getInfoFrom_UserSelectionDialog(QList <QString> resultList)
+{
+    ui->tableWidget_Users->setRowCount(0);
+
+    QList <User> tempList = db_buffer.getUsersList();
+    int x = 0;
+    bool flag;
+
+    while(x < tempList.size())
+    {
+        flag = false;
+
+        for(int i = 0; i < resultList.size(); i++)
+        {
+            if(resultList.at(i) == tempList.at(x).fio)
+            {
+                flag = true;
+                resultList.removeAt(i);
+                x++;
+                i = resultList.size();
+            }
+        }
+
+        if(!flag)
+        {
+            tempList.removeAt(x);
+        }
+    }
+
+
+    for(int i = 0; i < tempList.size(); i++)
+    {
+        ui->tableWidget_Users->insertRow(ui->tableWidget_Users->rowCount());
+        ui->tableWidget_Users->setItem(ui->tableWidget_Users->rowCount()-1, 0, new QTableWidgetItem(tempList.at(i).fio));
+
+        if(tempList.at(i).role == "Admin")
+            ui->tableWidget_Users->setItem(ui->tableWidget_Users->rowCount()-1, 1, new QTableWidgetItem("Администратор"));
+        else if(tempList.at(i).role == "Oper")
+            ui->tableWidget_Users->setItem(ui->tableWidget_Users->rowCount()-1, 1, new QTableWidgetItem("Оператор"));
+        else if(tempList.at(i).role == "Exp")
+            ui->tableWidget_Users->setItem(ui->tableWidget_Users->rowCount()-1, 1, new QTableWidgetItem("Эксперт"));
+    }
+
+    if(db_buffer.FindDatabaseName(ui->lineEdit_NameDB->text()))
+    {
+        if(ui->lineEdit_NameDB->text().size() != 0)
+            ui->label_WarningsNameDB->setText("База данных с таким названием уже существует!");
+        else
+            ui->label_WarningsNameDB->setText("Название не введено!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(false);
+    }
+    else
+    {
+        ui->label_WarningsNameDB->setText("Название базы данных введено верно!");
+
+        if(!ui->plainTextEdit_InformationDB->toPlainText().size())
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация не введена.\nРекомендуется внести данные, которые помогут пользователю работать с ней.");
+        else
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация введена!");
+
+        if(!ui->tableWidget_Users->rowCount())
+            ui->label_WarningsUsers->setText("Не назначены пользователи, которые могут редактировать БД.\nРекомендуется сразу внести эту информацию, чтобы пользователи могли сразу приступить к работе.");
+        else
+            ui->label_WarningsUsers->setText("Редакторы назначены!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(true);
+    }
+}
+
+void AdminMain::on_plainTextEdit_InformationDB_textChanged()
+{
+    if(db_buffer.FindDatabaseName(ui->lineEdit_NameDB->text()))
+    {
+        if(ui->lineEdit_NameDB->text().size() != 0)
+            ui->label_WarningsNameDB->setText("База данных с таким названием уже существует!");
+        else
+            ui->label_WarningsNameDB->setText("Название не введено!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(false);
+    }
+    else
+    {
+        ui->label_WarningsNameDB->setText("Название базы данных введено верно!");
+
+        if(!ui->plainTextEdit_InformationDB->toPlainText().size())
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация не введена.\nРекомендуется внести данные, которые помогут пользователю работать с ней.");
+        else
+            ui->label_WarningsMoreInformation->setText("Дополнительная информация введена!");
+
+        if(!ui->tableWidget_Users->rowCount())
+            ui->label_WarningsUsers->setText("Не назначены пользователи, которые могут редактировать БД.\nРекомендуется сразу внести эту информацию, чтобы пользователи могли сразу приступить к работе.");
+        else
+            ui->label_WarningsUsers->setText("Редакторы назначены!");
+
+        ui->pushButton_AddNewDB_Next_1->setEnabled(true);
+    }
+}

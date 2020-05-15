@@ -118,7 +118,7 @@
          <number>7</number>
         </property>
         <attribute name="horizontalHeaderVisible">
-         <bool>true</bool>
+         <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderMinimumSectionSize">
          <number>24</number>
@@ -141,7 +141,7 @@
         <row/>
         <column>
          <property name="text">
-          <string>Имя</string>
+          <string>ФИО</string>
          </property>
         </column>
         <column>

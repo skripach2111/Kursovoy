@@ -5,6 +5,8 @@
 #include <QVBoxLayout>
 #include "leapbutton.h"
 
+#include <QDebug>
+
 namespace Ui {
 class groupBox_leapButtons;
 }
@@ -25,6 +27,9 @@ public:
     void addButton(leapButton *button);
 
     void removeButton(leapButton *button);
+    void clear();
+
+    QList <QString> getList();
 
     ~groupBox_leapButtons();
 

@@ -64,7 +64,7 @@ void Authorization::on_pushButton_Entry_clicked()
         {
             if(query.value(0).toString() == ui->lineEdit_Login->text())
             {
-                if(query.value(1).toString() == "admin")
+                if(query.value(1).toString() == "Admin")
                 {
                     AdminMain *window = new AdminMain;
                     if(window->takeConnect(db))
