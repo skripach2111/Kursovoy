@@ -16,6 +16,13 @@ struct Module
     int hours;
 };
 
+struct Competence
+{
+    QString number;
+    QString name;
+    QString text;
+};
+
 struct Conformity
 {
     QString compet_1;
@@ -46,6 +53,8 @@ public:
     vector <Mod_Comp> mod_comp_1;
     vector <Mod_Comp> mod_comp_2;
     vector <Question> question;
+    vector <Competence> competence_1;
+    vector <Competence> competence_2;
 
     vector <Module> result_mod;
     vector <Question> result_question;

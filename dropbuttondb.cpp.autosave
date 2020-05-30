@@ -51,3 +51,8 @@ void dropButtonDB::setInfo(QString nameDB)
     name = nameDB;
     ui->commandLinkButton->setText(name);
 }
+
+void dropButtonDB::on_commandLinkButton_clicked()
+{
+    
+}

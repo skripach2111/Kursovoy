@@ -8,7 +8,7 @@ dropMenuDB::dropMenuDB(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->pushButton_Details, SIGNAL(clicked()), this, SLOT(slot_pushButton_Details_clicked()));
-    connect(ui->pushButton_DeleteDB, SIGNAL(clicked()), this, SLOT(slot_pushButton_DeleteDB()));
+    connect(ui->pushButton_DeleteDB, SIGNAL(clicked()), this, SLOT(slot_pushButton_DeleteDB_clicked()));
 }
 
 dropMenuDB::~dropMenuDB()

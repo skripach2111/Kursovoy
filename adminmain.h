@@ -15,6 +15,9 @@
 #include "databasebuffer.h"
 #include "dropbuttondb.h"
 #include "usersselectiondialog.h"
+#include "informationdb_dialog.h"
+#include "databaseselectiondialog.h"
+#include "informationuser_dialog.h"
 
 
 namespace Ui {
@@ -31,6 +34,15 @@ class AdminMain : public QDialog
 
     DatabaseBuffer db_buffer;
 
+    QVBoxLayout *mainlayoutDB = new QVBoxLayout();
+    QWidget *newWdgetDB;
+    QVBoxLayout *layoutDB = new QVBoxLayout();
+
+    QVBoxLayout *mainlayoutUser = new QVBoxLayout();
+    QWidget *newWdgetUser;
+    QVBoxLayout *layoutUser = new QVBoxLayout();
+    QSpacerItem *my_spacer = new QSpacerItem(0,0, QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 
 public:
     explicit AdminMain(QWidget *parent = nullptr);
@@ -38,8 +50,18 @@ public:
 
     bool takeConnect(QSqlDatabase d);
 
+    void addDropButton_DB(QString name);
+    void clear_viewdb();
+
+    void addDropButton_User(QString fio);
+    void clear_viewuser();
+
 public slots:
     void slot_getInfoFrom_UserSelectionDialog(QList <QString> resultList);
+    void slot_getInfoFrom_DatabaseSelectionDialog(QList <QString> resultList);
+    void slot_showDetails_DB(QString nameDB);
+    void slot_showDetails_User(QString nameUser);
+    //void slot_deleteDB(QString nameDB);
 
 private slots:
     void on_pushButton_clicked();
@@ -79,6 +101,24 @@ private slots:
     void on_pushButton_ChangeUsers_clicked();
 
     void on_plainTextEdit_InformationDB_textChanged();
+
+    void on_lineEdit_FIO_editingFinished();
+
+    void on_radioButton_Admin_clicked();
+
+    void on_radioButton_Operator_clicked();
+
+    void on_radioButton_Expert_clicked();
+
+    void on_lineEdit_UserLogin_editingFinished();
+
+    void on_lineEdit_UserPassword_1_editingFinished();
+
+    void on_lineEdit_UserPassword_2_editingFinished();
+
+    void on_pushButton_ChangeTableDB_clicked();
+
+    void on_pushButton_SearchDB_clicked();
 
 private:
     Ui::AdminMain *ui;

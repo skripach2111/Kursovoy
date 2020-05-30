@@ -2,11 +2,11 @@
 #include <QDebug>
 
 bool SortUsersRule(const User &a, const User &b)
-{ return a.fio > b.fio; }
+{ return a.fio < b.fio; }
 bool SortDatabaseRule(const DatabaseInfo &a, const DatabaseInfo &b)
-{ return  a.name > b.name; }
+{ return  a.name < b.name; }
 bool SortDatabaseNameRule(const QString &a, const QString &b)
-{ return  a > b; }
+{ return  a < b; }
 
 DatabaseBuffer::DatabaseBuffer()
 {
@@ -25,6 +25,8 @@ void DatabaseBuffer::setDB(QSqlDatabase *newdb)
 
 bool DatabaseBuffer::DownloadUsers()
 {
+    UsersList.clear();
+
     if(db->open())
     {
         QSqlQuery query;
@@ -53,6 +55,8 @@ bool DatabaseBuffer::DownloadUsers()
 
 bool DatabaseBuffer::DownloadDatabase()
 {
+    DatabaseList.clear();
+
     if(db->open())
     {
         QSqlQuery query;
@@ -80,6 +84,8 @@ bool DatabaseBuffer::DownloadDatabase()
 
 bool DatabaseBuffer::DownloadUsers_DB()
 {
+    UserDatabaseList.clear();
+
     if(db->open())
     {
         QSqlQuery query;
@@ -105,6 +111,8 @@ bool DatabaseBuffer::DownloadUsers_DB()
 
 bool DatabaseBuffer::DownloadDatabaseName()
 {
+    DatabaseNameList.clear();
+
     if(db->open())
     {
         qDebug() << "DB open!";
@@ -143,4 +151,33 @@ bool DatabaseBuffer::FindDatabaseName(QString name)
 QList <User> DatabaseBuffer::getUsersList()
 {
     return UsersList;
+}
+
+QList <DatabaseInfo> DatabaseBuffer::getDBList()
+{
+    return DatabaseList;
+}
+
+QList <User_Database> DatabaseBuffer::getUserDatabaseList()
+{
+    return UserDatabaseList;
+}
+
+QList <QString> DatabaseBuffer::getDatabaseNameList()
+{
+    return DatabaseNameList;
+}
+
+bool DatabaseBuffer::FindUserLogin(QString login)
+{
+    for(int i = 0; i < UsersList.size(); i++)
+    {
+        if(UsersList.at(i).login == login)
+        {
+            return true;
+
+        }
+    }
+
+    return  false;
 }

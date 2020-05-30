@@ -713,7 +713,7 @@
         <number>0</number>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="page_7">
         <property name="geometry">
@@ -894,7 +894,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="page_StartPage">
         <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1473,6 +1473,9 @@
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_SeacrDB_Active">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>Активные</string>
               </property>
@@ -1480,6 +1483,9 @@
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_SearchDB_Arhive">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>Архивные</string>
               </property>
@@ -1596,7 +1602,7 @@
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_3">
+             <widget class="QScrollArea" name="scrollArea_ViewDB">
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAsNeeded</enum>
               </property>
@@ -1608,25 +1614,10 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>538</width>
-                 <height>456</height>
+                 <width>19</width>
+                 <height>16</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <item>
-                 <spacer name="verticalSpacer_8">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
               </widget>
              </widget>
             </item>
@@ -1649,82 +1640,14 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item row="5" column="0" colspan="3">
-          <widget class="QLabel" name="label_9">
+         <item row="12" column="0" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_UserPassword_2">
            <property name="font">
             <font>
              <pointsize>11</pointsize>
             </font>
            </property>
-           <property name="text">
-            <string>Логин:</string>
-           </property>
           </widget>
-         </item>
-         <item row="7" column="0" colspan="3">
-          <widget class="QLabel" name="label_10">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Пароль:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="14" column="6">
-          <spacer name="verticalSpacer_11">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="3" colspan="2">
-          <widget class="QLabel" name="label_MessageforRole">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0" colspan="3">
-          <widget class="QLabel" name="label_11">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Повторите пароль:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="16" column="3">
-          <spacer name="horizontalSpacer_18">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item row="4" column="0" colspan="3">
           <widget class="QGroupBox" name="groupBox_RoleUser">
@@ -1767,53 +1690,6 @@
            </layout>
           </widget>
          </item>
-         <item row="8" column="0" colspan="3">
-          <widget class="QLineEdit" name="lineEdit_UserPassword_1">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item row="16" column="4">
-          <spacer name="horizontalSpacer_19">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="13" column="6">
-          <spacer name="verticalSpacer_10">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="12" column="0" colspan="3">
-          <widget class="QLineEdit" name="lineEdit_UserPassword_2">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
          <item row="5" column="3" rowspan="2" colspan="2">
           <widget class="QLabel" name="label_MessageforLogin">
            <property name="font">
@@ -1827,20 +1703,10 @@
            <property name="alignment">
             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
            </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
-         </item>
-         <item row="16" column="5">
-          <spacer name="horizontalSpacer_20">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item row="16" column="2">
           <spacer name="horizontalSpacer_17">
@@ -1854,63 +1720,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item row="2" column="3" rowspan="2" colspan="2">
-          <widget class="QLabel" name="label_MessageforFIO">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::AutoText</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" colspan="3">
-          <widget class="QLineEdit" name="lineEdit_FIO">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item row="16" column="6">
-          <widget class="QPushButton" name="pushButton_5">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>114</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Готово</string>
-           </property>
-          </widget>
          </item>
          <item row="0" column="0" colspan="7">
           <widget class="QLabel" name="label_12">
@@ -1929,23 +1738,8 @@
            </property>
           </widget>
          </item>
-         <item row="7" column="3" rowspan="6" colspan="2">
-          <widget class="QLabel" name="label_MessageforPassword">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-           </property>
-          </widget>
-         </item>
-         <item row="16" column="1">
-          <spacer name="horizontalSpacer_16">
+         <item row="16" column="3">
+          <spacer name="horizontalSpacer_18">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -1957,38 +1751,28 @@
            </property>
           </spacer>
          </item>
-         <item row="6" column="0" colspan="3">
-          <widget class="QLineEdit" name="lineEdit_UserLogin">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
+         <item row="16" column="4">
+          <spacer name="horizontalSpacer_19">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
-         <item row="2" column="0" colspan="3">
-          <widget class="QLabel" name="label_8">
+         <item row="9" column="0" colspan="3">
+          <widget class="QLabel" name="label_11">
            <property name="font">
             <font>
              <pointsize>11</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>ФИО:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="7">
-          <widget class="Line" name="line">
-           <property name="font">
-            <font>
-             <pointsize>23</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <string>Повторите пароль:</string>
            </property>
           </widget>
          </item>
@@ -2040,6 +1824,240 @@
              <widget class="QListWidget" name="listWidget_AddedDB"/>
             </item>
            </layout>
+          </widget>
+         </item>
+         <item row="13" column="6">
+          <spacer name="verticalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="7" column="3" rowspan="6" colspan="2">
+          <widget class="QLabel" name="label_MessageforPassword">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_UserLogin">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="6">
+          <widget class="QPushButton" name="pushButton_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>114</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Готово</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="7">
+          <widget class="Line" name="line">
+           <property name="font">
+            <font>
+             <pointsize>23</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="3">
+          <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Пароль:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_FIO">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="3">
+          <widget class="QLabel" name="label_8">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>ФИО:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="3">
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Логин:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="1">
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="14" column="6">
+          <spacer name="verticalSpacer_11">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="8" column="0" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_UserPassword_1">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="5">
+          <spacer name="horizontalSpacer_20">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="2" column="3" rowspan="2" colspan="2">
+          <widget class="QLabel" name="label_MessageforFIO">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3" colspan="2">
+          <widget class="QLabel" name="label_MessageforRole">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1" rowspan="2" colspan="5">
+          <widget class="QLabel" name="label_MessageListDB">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -2355,7 +2373,7 @@
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_4">
+             <widget class="QScrollArea" name="scrollArea_ViewUsers">
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
@@ -2364,8 +2382,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>535</width>
-                 <height>456</height>
+                 <width>38</width>
+                 <height>18</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout_27">

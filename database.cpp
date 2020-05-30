@@ -125,6 +125,30 @@ bool Database::LoadData(QSqlDatabase *db)
             qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString() << query.value(3).toString() << query.value(4).toString() << query.value(5).toString() << query.value(6).toString() << query.value(7).toString();
         }
 
+        Competence temp_compet;
+
+        query.exec("select * from competence");
+
+        while (query.next())
+        {
+            temp_compet.number = query.value(0).toString();
+            temp_compet.name = query.value(1).toString();
+            temp_compet.text = query.value(2).toString();
+
+            competence_1.push_back(temp_compet);
+        }
+
+        query.exec("select * from competence_2");
+
+        while (query.next())
+        {
+            temp_compet.number = query.value(0).toString();
+            temp_compet.name = query.value(1).toString();
+            temp_compet.text = query.value(2).toString();
+
+            competence_2.push_back(temp_compet);
+        }
+
         return true;
     }
     else

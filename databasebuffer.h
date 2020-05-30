@@ -52,8 +52,12 @@ public:
     bool DownloadUsers_DB();
 
     bool FindDatabaseName(QString name);
+    bool FindUserLogin(QString login);
 
     QList <User> getUsersList();
+    QList <DatabaseInfo> getDBList();
+    QList <User_Database> getUserDatabaseList();
+    QList <QString> getDatabaseNameList();
 };
 
 #endif // DATABASEBUFFER_H

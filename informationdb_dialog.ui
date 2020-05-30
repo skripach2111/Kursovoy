@@ -152,7 +152,7 @@
        </widget>
       </item>
       <item row="1" column="0" colspan="3">
-       <widget class="QPushButton" name="pushButtonEditUsers">
+       <widget class="QPushButton" name="pushButton_EditUsers">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -239,10 +239,23 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="QPushButton" name="pushButton_Edit">
          <property name="sizePolicy">
@@ -268,15 +281,41 @@
          </property>
         </widget>
        </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_Cancel">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>110</width>
            <height>40</height>
           </size>
          </property>
@@ -298,10 +337,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="pushButton_Save">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>110</width>
            <height>40</height>
           </size>
          </property>
@@ -316,6 +355,19 @@
          </property>
         </widget>
        </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -329,8 +381,7 @@
       </font>
      </property>
      <property name="text">
-      <string>text
-text</string>
+      <string/>
      </property>
     </widget>
    </item>

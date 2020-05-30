@@ -12,6 +12,8 @@ class DatabaseSelectionDialog : public QDialog
 {
     Q_OBJECT
 
+    QList <QString> DatabaseNameList;
+
 public:
     explicit DatabaseSelectionDialog(QWidget *parent = nullptr);
 
@@ -23,6 +25,18 @@ public slots:
     void slot_groupBox_AllDB_triggerred(leapButton *button);
 
     void slot_groupBox_SelectedDB_triggerred(leapButton *button);
+
+signals:
+    void takeResult(QList <QString> listUsers);
+
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_Cancel_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_Search_clicked();
 
 private:
     Ui::DatabaseSelectionDialog *ui;

@@ -29,6 +29,7 @@ SOURCES += \
     databaseselectiondialog.cpp \
     dropbuttondb.cpp \
     dropmenudb.cpp \
+    expertmain.cpp \
     groupbox_leapbuttons.cpp \
     informationdb_dialog.cpp \
     informationuser_dialog.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     databaseselectiondialog.h \
     dropbuttondb.h \
     dropmenudb.h \
+    expertmain.h \
     groupbox_leapbuttons.h \
     informationdb_dialog.h \
     informationuser_dialog.h \
@@ -60,6 +62,7 @@ FORMS += \
     databaseselectiondialog.ui \
     dropbuttondb.ui \
     dropmenudb.ui \
+    expertmain.ui \
     groupbox_leapbuttons.ui \
     informationdb_dialog.ui \
     informationuser_dialog.ui \

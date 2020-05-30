@@ -16,12 +16,33 @@ AdminMain::AdminMain(QWidget *parent) :
 
 AdminMain::~AdminMain()
 {
+    delete newWdgetDB;
+    delete mainlayoutDB;
+    delete layoutDB;
     delete ui;
 }
 
 
 bool AdminMain::takeConnect(QSqlDatabase d)
 {
+    newWdgetDB = new QWidget(ui->scrollArea_ViewDB);
+
+    ui->scrollArea_ViewDB->setLayout(mainlayoutDB);
+    ui->scrollArea_ViewDB->setWidget(newWdgetDB);
+    newWdgetDB->setLayout(layoutDB);
+    layoutDB->setSpacing(0);
+
+    layoutDB->addItem(my_spacer);
+
+    newWdgetUser = new QWidget(ui->scrollArea_ViewUsers);
+
+    ui->scrollArea_ViewUsers->setLayout(mainlayoutUser);
+    ui->scrollArea_ViewUsers->setWidget(newWdgetUser);
+    newWdgetUser->setLayout(layoutUser);
+    layoutUser->setSpacing(0);
+
+    layoutUser->addItem(my_spacer);
+
     db = d;
     qDebug() << db.userName();
 
@@ -29,21 +50,8 @@ bool AdminMain::takeConnect(QSqlDatabase d)
 
     if(db.open())
     {
-        qDebug() << "Connect to database!";
-        //        QSqlQuery query;
-        //        query.prepare("SELECT database_name FROM study.user_database WHERE user_name = :user");
-        //        query.bindValue(":user", db.userName());
-        //        query.exec();
-
         ui->stackedWidget_WorkSpace->setCurrentIndex(0);
         db_buffer.setDB(&db);
-
-        //        while (query.next())
-        //        {
-        //            ui->listWidget_Databases->addItem(query.value(0).toString());
-
-        //            qDebug() << query.value(0).toString() << endl;
-        //        }
 
         return true;
     }
@@ -252,16 +260,38 @@ void AdminMain::on_commandLinkButton_AddNewDB_clicked()
 
 void AdminMain::on_commandLinkButton_ViewDBs_clicked()
 {
+    db_buffer.DownloadDatabase();
+
+    clear_viewdb();
+
+    QList <DatabaseInfo> tempDBs = db_buffer.getDBList();
+
+    for(int i = 0; i < tempDBs.size(); i++)
+    {
+        addDropButton_DB(tempDBs.at(i).name);
+    }
+
     ui->stackedWidget_WorkSpace->setCurrentIndex(3);
 }
 
 void AdminMain::on_commandLinkButton_AddNewUser_clicked()
 {
+    db_buffer.DownloadDatabaseName();
+    db_buffer.DownloadUsers();
     ui->stackedWidget_WorkSpace->setCurrentIndex(4);
 }
 
 void AdminMain::on_commandLinkButton_ViewUsers_clicked()
 {
+    db_buffer.DownloadUsers();
+
+    clear_viewuser();
+
+    for(int i = 0; i < db_buffer.getUsersList().size(); i++)
+    {
+        addDropButton_User(db_buffer.getUsersList().at(i).fio);
+    }
+
     ui->stackedWidget_WorkSpace->setCurrentIndex(6);
 }
 
@@ -414,4 +444,435 @@ void AdminMain::on_plainTextEdit_InformationDB_textChanged()
 
         ui->pushButton_AddNewDB_Next_1->setEnabled(true);
     }
+}
+
+void AdminMain::addDropButton_DB(QString name)
+{
+    dropButtonDB *tmpButton = new dropButtonDB;
+    tmpButton->setInfo(name);
+    layoutDB->removeItem(my_spacer);
+    layoutDB->addWidget(tmpButton);
+    layoutDB->addItem(my_spacer);
+
+    connect(tmpButton, SIGNAL(showDetails(QString)), this, SLOT(slot_showDetails_DB(QString)));
+    //connect(tmpButton, SIGNAL(deleteThis(QString)), this, SLOT(slot_deleteDB(QString)));
+}
+
+void AdminMain::clear_viewdb()
+{
+    dropButtonDB *button;
+    int i = 0;
+
+    while(i < layoutDB->count())
+    {
+        button = (dropButtonDB*)layoutDB->takeAt(0)->widget();
+        layoutDB->removeWidget(button);
+        delete button;
+    }
+}
+
+void AdminMain::slot_showDetails_DB(QString nameDB)
+{
+    db_buffer.DownloadUsers();
+    db_buffer.DownloadDatabase();
+    db_buffer.DownloadUsers_DB();
+
+    DatabaseInfo DBInfo;
+    QList <User> Users;
+
+    for(int i = 0; i < db_buffer.getDBList().size(); i++)
+    {
+        if(db_buffer.getDBList().at(i).name == nameDB)
+        {
+            DBInfo = db_buffer.getDBList().at(i);
+            i = db_buffer.getDBList().size();
+        }
+    }
+
+    for(int i = 0; i < db_buffer.getUserDatabaseList().size(); i++)
+    {
+        if(db_buffer.getUserDatabaseList().at(i).database_name == nameDB)
+        {
+            for(int x = 0; x < db_buffer.getUsersList().size(); x++)
+            {
+                if(db_buffer.getUserDatabaseList().at(i).user_name == db_buffer.getUsersList().at(x).login)
+                {
+                    Users.push_back(db_buffer.getUsersList().at(x));
+                    x = db_buffer.getUsersList().size();
+                }
+            }
+        }
+    }
+
+    InformationDB_Dialog *InfoDB_Dialog = new InformationDB_Dialog;
+    InfoDB_Dialog->takeInfo(db_buffer.getUsersList(), Users, DBInfo);
+    InfoDB_Dialog->exec();
+    delete InfoDB_Dialog;
+}
+
+void AdminMain::on_lineEdit_FIO_editingFinished()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_radioButton_Admin_clicked()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_radioButton_Operator_clicked()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_radioButton_Expert_clicked()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_lineEdit_UserLogin_editingFinished()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_lineEdit_UserPassword_1_editingFinished()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_lineEdit_UserPassword_2_editingFinished()
+{
+    if(ui->lineEdit_FIO->text().size() != 0)
+    {
+        ui->label_MessageforFIO->setText("Введено!");
+    }
+    else
+    {
+        ui->label_MessageforFIO->setText("Обязательное поле для ввода!");
+    }
+
+    if(ui->lineEdit_UserLogin->text().size() != 0)
+    {
+        if(db_buffer.FindUserLogin(ui->lineEdit_UserLogin->text()))
+            ui->label_MessageforLogin->setText("Такой логин уже существует!");
+    }
+    else
+        ui->label_MessageforLogin->setText("Обязательно поле для вввода!");
+
+    if(!ui->radioButton_Admin->isChecked() && !ui->radioButton_Expert->isChecked() && !ui->radioButton_Operator->isChecked())
+        ui->label_MessageforRole->setText("Обязательное поле!");
+    else
+        ui->label_MessageforRole->setText("");
+
+    if(ui->lineEdit_UserPassword_1->text().size() == 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Обязательное поле для ввода!");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() == 0)
+        ui->label_MessageforPassword->setText("Повторите пароль.");
+    else if(ui->lineEdit_UserPassword_1->text().size() != 0 && ui->lineEdit_UserPassword_2->text().size() != 0 && ui->lineEdit_UserPassword_1->text() == ui->lineEdit_UserPassword_2->text())
+        ui->label_MessageforPassword->setText("Пароль введён!");
+    else
+        ui->label_MessageforPassword->setText("Пароли не совпадают!");
+
+    if(ui->listWidget_AddedDB->count() == 0)
+        ui->label_MessageListDB->setText("Рекосендется сразу добавить доступные для редактирования базы данных, чтобы пользователь мог сруз приступить к работе. Этот параметр можно будет настроить и позже.");
+    else
+        ui->label_MessageListDB->setText("Пользователи добавлены!");
+}
+
+void AdminMain::on_pushButton_ChangeTableDB_clicked()
+{
+    DatabaseSelectionDialog *DBSelectionDialog = new DatabaseSelectionDialog;
+    DBSelectionDialog->setAvailableDB(db_buffer.getDatabaseNameList());
+    connect(DBSelectionDialog, SIGNAL(takeResult(QList <QString>)), this, SLOT(slot_getInfoFrom_DatabaseSelectionDialog(QList <QString>)));
+    DBSelectionDialog->exec();
+}
+
+void AdminMain::slot_getInfoFrom_DatabaseSelectionDialog(QList <QString> resultList)
+{
+    ui->listWidget_AddedDB->clear();
+    ui->listWidget_AddedDB->addItems(resultList);
+}
+
+void AdminMain::on_pushButton_SearchDB_clicked()
+{
+    clear_viewdb();
+
+    if(ui->lineEdit_SearchDB->text().size() != 0)
+    {
+        for(int i = 0; i < db_buffer.getDBList().size(); i++)
+        {
+            if(db_buffer.getDBList().at(i).name.indexOf(ui->lineEdit_SearchDB->text()) > -1)
+                addDropButton_DB(db_buffer.getDBList().at(i).name);
+        }
+    }
+    else
+    {
+        for(int i = 0; i < db_buffer.getDBList().size(); i++)
+        {
+           addDropButton_DB(db_buffer.getDBList().at(i).name);
+        }
+    }
+}
+
+void AdminMain::clear_viewuser()
+{
+    dropButtonDB *button;
+    int i = 0;
+
+    while(i < layoutUser->count())
+    {
+        button = (dropButtonDB*)layoutUser->takeAt(0)->widget();
+        layoutUser->removeWidget(button);
+        delete button;
+    }
+}
+
+void AdminMain::addDropButton_User(QString fio)
+{
+    //clear_viewuser();
+
+    dropButtonDB *tmpButton = new dropButtonDB;
+    tmpButton->setInfo(fio);
+    layoutUser->removeItem(my_spacer);
+    layoutUser->addWidget(tmpButton);
+    layoutUser->addItem(my_spacer);
+
+    connect(tmpButton, SIGNAL(showDetails(QString)), this, SLOT(slot_showDetails_User(QString)));
+    //connect(tmpButton, SIGNAL(deleteThis(QString)), this, SLOT(slot_deleteDB(QString)));
+}
+
+void AdminMain::slot_showDetails_User(QString name)
+{
+    db_buffer.DownloadDatabase();
+    db_buffer.DownloadUsers_DB();
+    db_buffer.DownloadDatabaseName();
+
+    User UserInfo;
+    QList <QString> DBs;
+
+    for(int i = 0; i < db_buffer.getUsersList().size(); i++)
+    {
+        if(db_buffer.getUsersList().at(i).fio == name)
+        {
+            UserInfo = db_buffer.getUsersList().at(i);
+            i = db_buffer.getUsersList().size();
+        }
+    }
+
+    for(int i = 0; i < db_buffer.getUserDatabaseList().size(); i++)
+    {
+        if(db_buffer.getUserDatabaseList().at(i).user_name == UserInfo.login)
+        {
+            DBs.push_back(db_buffer.getUserDatabaseList().at(i).database_name);
+        }
+    }
+
+    InformationUser_Dialog *InfoUser_Dialog = new InformationUser_Dialog;
+    InfoUser_Dialog->takeInfo(db_buffer.getDatabaseNameList(), UserInfo, DBs);
+    InfoUser_Dialog->exec();
+    delete InfoUser_Dialog;
 }
