@@ -69,10 +69,25 @@ void Authorization::on_pushButton_Entry_clicked()
                     AdminMain *window = new AdminMain;
                     if(window->takeConnect(db))
                     {
-                    db.close();
-                    this->close();
+                        db.close();
+                        this->close();
 
-                    window->show();
+                        window->show();
+                    }
+                    else
+                    {
+                        ui->label_Message->setText("Не удалось подключится!");
+                    }
+                }
+                else if(query.value(1).toString() == "Exp")
+                {
+                    ExpertMain *window = new ExpertMain;
+                    if(window->takeConnect(db))
+                    {
+                        db.close();
+                        this->close();
+
+                        window->show();
                     }
                     else
                     {

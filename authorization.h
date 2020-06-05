@@ -10,6 +10,7 @@
 #include <QDebug>
 
 #include "adminmain.h"
+#include "expertmain.h"
 
 
 QT_BEGIN_NAMESPACE

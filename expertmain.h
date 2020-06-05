@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #include "database.h"
 #include "databasebuffer.h"
@@ -28,6 +29,8 @@ class ExpertMain : public QWidget
 
     DatabaseBuffer db_buffer;
 
+    void ValueCoefUpdate();
+
 public:
     explicit ExpertMain(QWidget *parent = nullptr);
     ~ExpertMain();
@@ -42,6 +45,16 @@ private slots:
     void on_listWidget_Competence1_currentRowChanged(int currentRow);
 
     void on_listWidget_Competence2_currentRowChanged(int currentRow);
+
+    void on_pushButton_Set_clicked();
+
+    void on_listWidget_Competence1_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
+    void on_listWidget_Competence2_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
+    void on_pushButton_Cancel_clicked();
+
+    void on_listWidget_ListDatabases_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
     Ui::ExpertMain *ui;

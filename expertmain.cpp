@@ -42,29 +42,111 @@ bool ExpertMain::takeConnect(QSqlDatabase d)
 }
 void ExpertMain::on_listWidget_ListDatabases_currentRowChanged(int currentRow)
 {
-    ui->label_NameDB->setText(db_buffer.getDBList().at(currentRow).name);
-    ui->label_MoreInformation->setText(db_buffer.getDBList().at(currentRow).text);
+//    ui->label_NameDB->setText(db_buffer.getDBList().at(currentRow).name);
+//    ui->label_MoreInformation->setText(db_buffer.getDBList().at(currentRow).text);
 }
 
 void ExpertMain::on_pushButton_Open_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    //ui->stackedWidget->setCurrentIndex(1);
 
-    mydb.LoadData(&db);
+    db.setDatabaseName(ui->listWidget_ListDatabases->currentItem()->text());
+
+    Database d;
+    mydb = d;
+
+    if(mydb.LoadData(&db))
+        ui->stackedWidget->setCurrentIndex(1);
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Невозможно извлечь информаию из базы данных!\n");
+        msgBox.exec();
+    }
+
+    ui->listWidget_Competence1->clear();
+    ui->listWidget_Competence2->clear();
+    ui->label_InfoCompetence1->clear();
+    ui->label_InfoCompetence2->clear();
 
     for(int i = 0; i < mydb.competence_1.size(); i++)
-        ui->listWidget_Competence1->addItem(mydb.competence_1.at(i).name);
+        ui->listWidget_Competence1->addItem(mydb.competence_1.at(i).number);
 
     for(int i = 0; i < mydb.competence_2.size(); i++)
-        ui->listWidget_Competence2->addItem(mydb.competence_2.at(i).name);
+        ui->listWidget_Competence2->addItem(mydb.competence_2.at(i).number);
 }
 
 void ExpertMain::on_listWidget_Competence1_currentRowChanged(int currentRow)
 {
-    ui->label_InfoCompetence1->setText(mydb.competence_1.at(currentRow).text);
+    ValueCoefUpdate();
+    ui->label_InfoCompetence1->setText(mydb.competence_1.at(currentRow).name);
 }
 
 void ExpertMain::on_listWidget_Competence2_currentRowChanged(int currentRow)
 {
-    ui->label_InfoCompetence2->setText(mydb.competence_2.at(currentRow).text);
+    ValueCoefUpdate();
+    ui->label_InfoCompetence2->setText(mydb.competence_2.at(currentRow).name);
+}
+
+void ExpertMain::on_pushButton_Set_clicked()
+{
+    for(int i = 0; i < ui->listWidget_Competence1->selectedItems().size(); i++)
+    {
+        for(int j = 0; j < ui->listWidget_Competence2->selectedItems().size(); j++)
+        {
+            for(int k = 0; k < mydb.conf.size(); k++)
+            {
+                if(mydb.conf.at(k).compet_1 == ui->listWidget_Competence1->selectedItems().at(i)->text() && mydb.conf.at(k).compet_2 == ui->listWidget_Competence2->selectedItems().at(j)->text())
+                    mydb.conf.at(k).value_coef = ui->doubleSpinBox_value_coef->value();
+            }
+        }
+    }
+}
+
+void ExpertMain::ValueCoefUpdate()
+{
+    if(ui->listWidget_Competence1->selectedItems().size() != 0 && ui->listWidget_Competence2->selectedItems().size() != 0)
+    {
+        for(int k = 0; k < mydb.conf.size(); k++)
+        {
+            if(ui->listWidget_Competence1->currentItem()->text() == mydb.conf.at(k).compet_1 && ui->listWidget_Competence2->currentItem()->text() == mydb.conf.at(k).compet_2)
+                ui->doubleSpinBox_value_coef->setValue(mydb.conf.at(k).value_coef);
+        }
+    }
+}
+void ExpertMain::on_listWidget_Competence1_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+//    ValueCoefUpdate();
+
+//    for(int i = 0; i < mydb.competence_1.size(); i++)
+//    {
+//        if(mydb.competence_1.at(i).number == ui->listWidget_Competence1->currentItem()->text())
+//            ui->label_InfoCompetence1->setText(mydb.competence_1.at(i).name);
+//    }
+}
+
+void ExpertMain::on_listWidget_Competence2_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+//    ValueCoefUpdate();
+
+//    for(int i = 0; i < mydb.competence_2.size(); i++)
+//    {
+//        if(mydb.competence_2.at(i).number == ui->listWidget_Competence2->currentItem()->text())
+//            ui->label_InfoCompetence2->setText(mydb.competence_2.at(i).name);
+//    }
+}
+
+void ExpertMain::on_pushButton_Cancel_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void ExpertMain::on_listWidget_ListDatabases_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    for(int i = 0; i < db_buffer.getDBList().size(); i++)
+        if(db_buffer.getDBList().at(i).name == ui->listWidget_ListDatabases->currentItem()->text())
+        {
+            ui->label_NameDB->setText(db_buffer.getDBList().at(i).name);
+            ui->label_MoreInformation->setText(db_buffer.getDBList().at(i).text);
+        }
 }
