@@ -11,6 +11,7 @@
 
 #include "adminmain.h"
 #include "expertmain.h"
+#include "opermain.h"
 
 
 QT_BEGIN_NAMESPACE

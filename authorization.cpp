@@ -95,6 +95,22 @@ void Authorization::on_pushButton_Entry_clicked()
                     }
                 }
 
+                else if(query.value(1).toString() == "Oper")
+                {
+                    OperMain *window = new OperMain;
+                    if(window->takeConnect(db))
+                    {
+                        db.close();
+                        this->close();
+
+                        window->show();
+                    }
+                    else
+                    {
+                        ui->label_Message->setText("Не удалось подключится!");
+                    }
+                }
+
                 break;
             }
             qDebug() << query.value(0).toString() << " " << query.value(1).toString() << endl;

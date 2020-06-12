@@ -44,6 +44,13 @@ struct Question
     QString answer_true;
 };
 
+struct Discipline
+{
+    QString id;
+    QString name;
+    QString control;
+};
+
 class Database
 {
 public:
@@ -55,6 +62,8 @@ public:
     vector <Question> question;
     vector <Competence> competence_1;
     vector <Competence> competence_2;
+    vector <Discipline> discipline_1;
+    vector <Discipline> discipline_2;
 
     vector <Module> result_mod;
     vector <Question> result_question;

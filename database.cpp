@@ -10,6 +10,17 @@ bool Database::LoadData(QSqlDatabase *db)
     if(db->open())
     {
 
+        mod_1.clear();
+        mod_2.clear();
+        mod_comp_1.clear();
+        mod_comp_2.clear();
+        competence_1.clear();
+        competence_2.clear();
+        conf.clear();
+        question.clear();
+        discipline_1.clear();
+        discipline_2.clear();
+
         QSqlQuery query;
         query.exec("select module.id_module, module.name_module, module.hours_module, discipline.name_discipline from module, discipline where discipline.id_discipline = module.id_discipline group by module.id_module;");
 
@@ -147,6 +158,30 @@ bool Database::LoadData(QSqlDatabase *db)
             temp_compet.text = query.value(2).toString();
 
             competence_2.push_back(temp_compet);
+        }
+
+        Discipline temp_disc;
+
+        query.exec("select * from discipline_1");
+
+        while (query.next())
+        {
+            temp_disc.id = query.value(0).toString();
+            temp_disc.name = query.value(1).toString();
+            temp_disc.control = query.value(2).toString();
+
+            discipline_1.push_back(temp_disc);
+        }
+
+        query.exec("select * from discipline_2");
+
+        while (query.next())
+        {
+            temp_disc.id = query.value(0).toString();
+            temp_disc.name = query.value(1).toString();
+            temp_disc.control = query.value(2).toString();
+
+            discipline_2.push_back(temp_disc);
         }
 
         return true;

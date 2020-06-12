@@ -37,6 +37,7 @@ SOURCES += \
     main.cpp \
     authorization.cpp \
     adddb_dialog.cpp \
+    opermain.cpp \
     usersselectiondialog.cpp
 
 HEADERS += \
@@ -53,6 +54,7 @@ HEADERS += \
     informationdb_dialog.h \
     informationuser_dialog.h \
     leapbutton.h \
+    opermain.h \
     usersselectiondialog.h
 
 FORMS += \
@@ -67,6 +69,7 @@ FORMS += \
     informationdb_dialog.ui \
     informationuser_dialog.ui \
     leapbutton.ui \
+    opermain.ui \
     usersselectiondialog.ui
 
 # Default rules for deployment.
