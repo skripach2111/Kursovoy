@@ -87,6 +87,14 @@ private slots:
 
     void on_tableWidget_Subjects_cellClicked(int row, int column);
 
+    void slot_GetResult_From_CompetenceSelectionDialog(vector <Module> modules, vector <Mod_Comp> mod_comp);
+
+    void on_pushButton_AddSubject2_clicked();
+
+    void on_pushButton_AddSubject1_clicked();
+
+    void on_toolButton_2_clicked();
+
 private:
     Ui::OperMain *ui;
 };

@@ -412,7 +412,7 @@ void OperMain::on_pushButton_ViewModulesViewer_clicked()
         for(int i = 0; i < mydb.discipline_2.size(); i++)
             if(ui->label_NameSubjectViewer->text() == mydb.discipline_2.at(i).name)
             {
-                window->setData(mydb.mod_2, mydb.discipline_2.at(i));
+                window->setData(mydb.mod_2, mydb.discipline_2.at(i), mydb.mod_comp_2);
                 i = mydb.discipline_2.size();
             }
     }
@@ -421,7 +421,7 @@ void OperMain::on_pushButton_ViewModulesViewer_clicked()
         for(int i = 0; i < mydb.discipline_1.size(); i++)
             if(ui->label_NameSubjectViewer->text() == mydb.discipline_1.at(i).name)
             {
-                window->setData(mydb.mod_1, mydb.discipline_1.at(i));
+                window->setData(mydb.mod_1, mydb.discipline_1.at(i), mydb.mod_comp_1);
                 i = mydb.discipline_1.size();
             }
     }
@@ -487,7 +487,7 @@ void OperMain::on_pushButton_EditModuleEditor_clicked()
         for(int i = 0; i < mydb.discipline_2.size(); i++)
             if(ui->label_NameSubjectViewer->text() == mydb.discipline_2.at(i).name)
             {
-                window->setData(mydb.mod_2, mydb.discipline_2.at(i), mydb.mod_comp_2);
+                window->setData(mydb.mod_2, mydb.discipline_2.at(i), mydb.mod_comp_2, mydb.competence_2);
                 i = mydb.discipline_2.size();
             }
     }
@@ -496,7 +496,7 @@ void OperMain::on_pushButton_EditModuleEditor_clicked()
         for(int i = 0; i < mydb.discipline_1.size(); i++)
             if(ui->label_NameSubjectViewer->text() == mydb.discipline_1.at(i).name)
             {
-                window->setData(mydb.mod_1, mydb.discipline_1.at(i), mydb.mod_comp_2);
+                window->setData(mydb.mod_1, mydb.discipline_1.at(i), mydb.mod_comp_1, mydb.competence_1);
                 i = mydb.discipline_1.size();
             }
     }
@@ -635,4 +635,57 @@ void OperMain::on_tableWidget_Subjects_cellClicked(int row, int column)
                 ui->listWidget_Modules->addItem(mydb.result_mod[i].name);
         }
     }
+}
+
+void OperMain::slot_GetResult_From_CompetenceSelectionDialog(vector <Module> modules, vector <Mod_Comp> mod_comp)
+{
+    if(ui->stackedWidget_Subjects->currentIndex())
+    {
+        mydb.mod_2 = modules;
+        mydb.mod_comp_2 = mod_comp;
+    }
+    else
+    {
+        mydb.mod_1 = modules;
+        mydb.mod_comp_1 = mod_comp;
+    }
+}
+
+void OperMain::on_pushButton_AddSubject2_clicked()
+{
+    ui->treeWidget_Subjects2->addTopLevelItem(new QTreeWidgetItem);
+    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(0, "-");
+    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(1, "-");
+    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(2, "0");
+
+    Discipline tmp;
+
+    tmp.id = "-";
+    tmp.name = "-";
+    tmp.control = "-";
+
+    mydb.discipline_2.push_back(tmp);
+}
+
+void OperMain::on_pushButton_AddSubject1_clicked()
+{
+    ui->treeWidget_Subjects1->addTopLevelItem(new QTreeWidgetItem);
+    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(0, "-");
+    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(1, "-");
+    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(2, "0");
+
+    Discipline tmp;
+
+    tmp.id = "-";
+    tmp.name = "-";
+    tmp.control = "-";
+
+    mydb.discipline_1.push_back(tmp);
+}
+
+void OperMain::on_toolButton_2_clicked()
+{
+    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 0);
+    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 1);
+    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 2);
 }

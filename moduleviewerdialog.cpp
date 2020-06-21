@@ -13,9 +13,10 @@ ModuleViewerDialog::~ModuleViewerDialog()
     delete ui;
 }
 
-void ModuleViewerDialog::setData(vector<Module> modules, Discipline subject)
+void ModuleViewerDialog::setData(vector<Module> modules, Discipline subject, vector <Mod_Comp> mod)
 {
     module = modules;
+    mod_comp = mod;
     int sum_hours = 0;
 
     for(int i = 0; i < modules.size(); i++)
@@ -39,6 +40,13 @@ void ModuleViewerDialog::on_tableWidget_currentItemChanged(QTableWidgetItem *cur
             ui->label_name->setText(module.at(i).name);
             ui->label_credits->setText(QVariant(module.at(i).hours).toString());
         }
+
+    ui->listWidget_listCompetences->clear();
+
+    for(int i = 0; i < mod_comp.size(); i++)
+        if(mod_comp.at(i).id_module == ui->label_id->text())
+            ui->listWidget_listCompetences->addItem(mod_comp.at(i).id_competence);
+
 }
 
 void ModuleViewerDialog::on_pushButton_close_clicked()

@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     adminmain.cpp \
+    competenceselectiondialog.cpp \
     database.cpp \
     databasebuffer.cpp \
     databaseselectiondialog.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
 HEADERS += \
     adminmain.h \
     authorization.h \
+    competenceselectiondialog.h \
     database.h \
     adddb_dialog.h \
     databasebuffer.h \
@@ -65,6 +67,7 @@ FORMS += \
     adminmain.ui \
     authorization.ui \
     adddb_dialog.ui \
+    competenceselectiondialog.ui \
     databaseselectiondialog.ui \
     dropbuttondb.ui \
     dropmenudb.ui \
