@@ -37,6 +37,8 @@ SOURCES += \
     main.cpp \
     authorization.cpp \
     adddb_dialog.cpp \
+    moduleeditordialog.cpp \
+    moduleviewerdialog.cpp \
     opermain.cpp \
     usersselectiondialog.cpp
 
@@ -54,6 +56,8 @@ HEADERS += \
     informationdb_dialog.h \
     informationuser_dialog.h \
     leapbutton.h \
+    moduleeditordialog.h \
+    moduleviewerdialog.h \
     opermain.h \
     usersselectiondialog.h
 
@@ -69,6 +73,8 @@ FORMS += \
     informationdb_dialog.ui \
     informationuser_dialog.ui \
     leapbutton.ui \
+    moduleeditordialog.ui \
+    moduleviewerdialog.ui \
     opermain.ui \
     usersselectiondialog.ui
 

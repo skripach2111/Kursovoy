@@ -121,10 +121,65 @@ void OperMain::on_commandLinkButton_3_clicked()
     ui->stackedWidget_Workspace->setCurrentIndex(2);
     ui->stackedWidget_EditOrViewSpace->setVisible(true);
 
+    ui->stackedWidget_Subjects->setCurrentIndex(0);
+
     if(Mode)
         ui->stackedWidget_EditOrViewSpace->setCurrentIndex(2);
     else
         ui->stackedWidget_EditOrViewSpace->setCurrentIndex(3);
+
+    ui->treeWidget_Subjects1->clear();
+    ui->treeWidget_Subjects2->clear();
+
+    int SumCredits;
+
+    for(int i = 0; i < mydb.discipline_1.size(); i++)
+    {
+        SumCredits = 0;
+
+        ui->treeWidget_Subjects1->addTopLevelItem(new QTreeWidgetItem);
+        ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(0, mydb.discipline_1.at(i).id);
+        ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(1, mydb.discipline_1.at(i).name);
+
+        for(int j = 0; j < mydb.mod_1.size(); j++)
+        {
+            if(mydb.discipline_1.at(i).name == mydb.mod_1.at(j).discipline)
+            {
+                SumCredits += mydb.mod_1.at(j).hours;
+
+                ui->treeWidget_Subjects1->topLevelItem(i)->addChild(new QTreeWidgetItem);
+                ui->treeWidget_Subjects1->topLevelItem(i)->child(ui->treeWidget_Subjects1->topLevelItem(i)->childCount()-1)->setText(0, mydb.mod_1.at(j).id);
+                ui->treeWidget_Subjects1->topLevelItem(i)->child(ui->treeWidget_Subjects1->topLevelItem(i)->childCount()-1)->setText(1, mydb.mod_1.at(j).name);
+                ui->treeWidget_Subjects1->topLevelItem(i)->child(ui->treeWidget_Subjects1->topLevelItem(i)->childCount()-1)->setText(2, QVariant(mydb.mod_1.at(j).hours).toString());
+            }
+        }
+
+        ui->treeWidget_Subjects1->topLevelItem(i)->setText(2, QVariant(SumCredits).toString());
+    }
+
+    for(int i = 0; i < mydb.discipline_2.size(); i++)
+    {
+        SumCredits = 0;
+
+        ui->treeWidget_Subjects2->addTopLevelItem(new QTreeWidgetItem);
+        ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(0, mydb.discipline_2.at(i).id);
+        ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(1, mydb.discipline_2.at(i).name);
+
+        for(int j = 0; j < mydb.mod_2.size(); j++)
+        {
+            if(mydb.discipline_2.at(i).name == mydb.mod_2.at(j).discipline)
+            {
+                SumCredits += mydb.mod_2.at(j).hours;
+
+                ui->treeWidget_Subjects2->topLevelItem(i)->addChild(new QTreeWidgetItem);
+                ui->treeWidget_Subjects2->topLevelItem(i)->child(ui->treeWidget_Subjects2->topLevelItem(i)->childCount()-1)->setText(0, mydb.mod_2.at(j).id);
+                ui->treeWidget_Subjects2->topLevelItem(i)->child(ui->treeWidget_Subjects2->topLevelItem(i)->childCount()-1)->setText(1, mydb.mod_2.at(j).name);
+                ui->treeWidget_Subjects2->topLevelItem(i)->child(ui->treeWidget_Subjects2->topLevelItem(i)->childCount()-1)->setText(2, QVariant(mydb.mod_2.at(j).hours).toString());
+            }
+        }
+
+        ui->treeWidget_Subjects2->topLevelItem(i)->setText(2, QVariant(SumCredits).toString());
+    }
 }
 
 void OperMain::on_commandLinkButton_4_clicked()
@@ -268,4 +323,115 @@ void OperMain::on_listWidget_ListQuestions_currentRowChanged(int currentRow)
 
             break;
         }
+}
+
+void OperMain::on_comboBox_SetRange_2_currentIndexChanged(int index)
+{
+    ui->stackedWidget_Subjects->setCurrentIndex(index);
+}
+
+void OperMain::on_treeWidget_Subjects1_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    for(int i = 0; i < ui->treeWidget_Subjects1->topLevelItemCount(); i++)
+        if(ui->treeWidget_Subjects1->topLevelItem(i)->text(0) == current->text(0))
+        {
+            if(ui->pushButton_ViewMode->isFlat())
+            {
+                ui->label_NumberSubjectViewer->setText(mydb.discipline_1.at(i).id);
+                ui->label_NameSubjectViewer->setText(mydb.discipline_1.at(i).name);
+                ui->label_ControlSubjectViewer->setText(mydb.discipline_1.at(i).control);
+                ui->label_CreditsSubjectsViewer->setText(current->text(2));
+
+                ui->tableWidget_ListModulesViewer->setRowCount(0);
+
+                for(int j = 0; j < mydb.mod_1.size(); j++)
+                    if(mydb.mod_1.at(j).discipline == current->text(1))
+                    {
+                        ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+                    }
+            }
+            else
+            {
+                ui->lineEdit_SubjectNameEditer->setText(mydb.discipline_1.at(i).name);
+                ui->lineEdit_SubjectNumberEditer->setText(mydb.discipline_1.at(i).id);
+                ui->lineEdi_Control->setText(mydb.discipline_1.at(i).control);
+
+                ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+                for(int j = 0; j < mydb.mod_1.size(); j++)
+                    if(mydb.mod_1.at(j).discipline == current->text(1))
+                    {
+                        ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                        ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                        ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+                    }
+            }
+        }
+
+}
+
+void OperMain::on_treeWidget_Subjects2_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    for(int i = 0; i < ui->treeWidget_Subjects2->topLevelItemCount(); i++)
+        if(ui->treeWidget_Subjects2->topLevelItem(i)->text(0) == current->text(0))
+        {
+            if(ui->pushButton_ViewMode->isFlat())
+            {
+                ui->label_NumberSubjectViewer->setText(mydb.discipline_2.at(i).id);
+                ui->label_NameSubjectViewer->setText(mydb.discipline_2.at(i).name);
+                ui->label_ControlSubjectViewer->setText(mydb.discipline_2.at(i).control);
+                ui->label_CreditsSubjectsViewer->setText(current->text(2));
+
+                ui->tableWidget_ListModulesViewer->setRowCount(0);
+
+                for(int j = 0; j < mydb.mod_2.size(); j++)
+                    if(mydb.mod_2.at(j).discipline == current->text(1))
+                    {
+                        ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
+                    }
+            }
+        }
+}
+
+void OperMain::on_pushButton_ViewModulesViewer_clicked()
+{
+    ModuleViewerDialog *window = new ModuleViewerDialog;
+
+    if(ui->stackedWidget_Subjects->currentIndex())
+    {
+        for(int i = 0; i < mydb.discipline_2.size(); i++)
+            if(ui->label_NameSubjectViewer->text() == mydb.discipline_2.at(i).name)
+            {
+                window->setData(mydb.mod_2, mydb.discipline_2.at(i));
+                i = mydb.discipline_2.size();
+            }
+    }
+    else
+    {
+        for(int i = 0; i < mydb.discipline_1.size(); i++)
+            if(ui->label_NameSubjectViewer->text() == mydb.discipline_1.at(i).name)
+            {
+                window->setData(mydb.mod_1, mydb.discipline_1.at(i));
+                i = mydb.discipline_1.size();
+            }
+    }
+
+    window->exec();
+    delete window;
+}
+
+void OperMain::on_pushButton_ViewMode_clicked()
+{
+    ui->pushButton_ViewMode->setFlat(true);
+    ui->pushButton_EditMode->setFlat(false);
+}
+
+void OperMain::on_pushButton_EditMode_clicked()
+{
+    ui->pushButton_ViewMode->setFlat(false);
+    ui->pushButton_EditMode->setFlat(true);
 }

@@ -11,9 +11,11 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QListWidgetItem>
+#include <QTreeWidgetItem>
 
 #include "database.h"
 #include "databasebuffer.h"
+#include "moduleviewerdialog.h"
 
 namespace Ui {
 class OperMain;
@@ -59,6 +61,18 @@ private slots:
     void on_listWidget_ListCompetences_currentRowChanged(int currentRow);
 
     void on_listWidget_ListQuestions_currentRowChanged(int currentRow);
+
+    void on_comboBox_SetRange_2_currentIndexChanged(int index);
+
+    void on_treeWidget_Subjects1_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
+    void on_treeWidget_Subjects2_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
+    void on_pushButton_ViewModulesViewer_clicked();
+
+    void on_pushButton_ViewMode_clicked();
+
+    void on_pushButton_EditMode_clicked();
 
 private:
     Ui::OperMain *ui;

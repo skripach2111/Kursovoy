@@ -162,7 +162,7 @@ bool Database::LoadData(QSqlDatabase *db)
 
         Discipline temp_disc;
 
-        query.exec("select * from discipline_1");
+        query.exec("select * from discipline");
 
         while (query.next())
         {
@@ -171,7 +171,7 @@ bool Database::LoadData(QSqlDatabase *db)
             temp_disc.control = query.value(2).toString();
 
             discipline_1.push_back(temp_disc);
-        }
+        }        
 
         query.exec("select * from discipline_2");
 

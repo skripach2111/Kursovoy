@@ -1,6 +1,7 @@
 #ifndef ADMINMAIN_H
 #define ADMINMAIN_H
 
+#include <QtWidgets>
 #include <QDialog>
 #include <QtSql>
 #include <QDebug>

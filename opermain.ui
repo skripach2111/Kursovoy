@@ -313,7 +313,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_DatabaseMainInfo">
           <layout class="QGridLayout" name="gridLayout_6">
@@ -464,9 +464,6 @@
                <property name="spacing">
                 <number>0</number>
                </property>
-               <item row="0" column="0" colspan="3">
-                <widget class="QListWidget" name="listWidget_Competences1"/>
-               </item>
                <item row="1" column="0" colspan="3">
                 <widget class="QPushButton" name="pushButton_AddCompetence1">
                  <property name="text">
@@ -476,6 +473,19 @@
                   <bool>true</bool>
                  </property>
                 </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QPushButton" name="pushButton_DeleteCompetence1">
+                 <property name="text">
+                  <string>Удалить</string>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0" colspan="4">
+                <widget class="QListWidget" name="listWidget_Competences1"/>
                </item>
               </layout>
              </widget>
@@ -510,7 +520,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QToolButton" name="toolButton_4">
+                <widget class="QToolButton" name="toolButton_DeleteCompetence2">
                  <property name="text">
                   <string>Удалить</string>
                  </property>
@@ -930,6 +940,12 @@
                <property name="text">
                 <string>Просмотр</string>
                </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
                <property name="flat">
                 <bool>true</bool>
                </property>
@@ -1045,7 +1061,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page_ViewCompetence">
           <layout class="QGridLayout" name="gridLayout_8">
@@ -1179,7 +1195,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>216</width>
-                    <height>105</height>
+                    <height>106</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_13">
@@ -1370,10 +1386,10 @@
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_18">
-               <item row="2" column="1">
-                <widget class="QLabel" name="label_NumberSubjectViewer">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_16">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Номер:</string>
                  </property>
                 </widget>
                </item>
@@ -1389,14 +1405,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLabel" name="label_NameSubjectViewer">
-                 <property name="text">
-                  <string>TextLabel</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
+               <item row="5" column="1">
                 <widget class="QLabel" name="label_CreditsSubjectsViewer">
                  <property name="text">
                   <string>TextLabel</string>
@@ -1410,28 +1419,21 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
+               <item row="5" column="0">
                 <widget class="QLabel" name="label_20">
                  <property name="text">
                   <string>Кредиты:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_16">
+               <item row="2" column="1">
+                <widget class="QLabel" name="label_NumberSubjectViewer">
                  <property name="text">
-                  <string>Номер:</string>
+                  <string>TextLabel</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="Line" name="line_10">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0" colspan="2">
+               <item row="6" column="0" colspan="2">
                 <widget class="QGroupBox" name="groupBox_ListModulesViewer">
                  <property name="title">
                   <string>Модули:</string>
@@ -1479,12 +1481,36 @@
                     <attribute name="verticalHeaderVisible">
                      <bool>false</bool>
                     </attribute>
+                    <column>
+                     <property name="text">
+                      <string>Модуль</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Кредиты</string>
+                     </property>
+                    </column>
                    </widget>
                   </item>
                  </layout>
                 </widget>
                </item>
-               <item row="6" column="0" colspan="2">
+               <item row="3" column="1">
+                <widget class="QLabel" name="label_NameSubjectViewer">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="Line" name="line_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="2">
                 <spacer name="verticalSpacer_4">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -1496,6 +1522,20 @@
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_28">
+                 <property name="text">
+                  <string>Контроль:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLabel" name="label_ControlSubjectViewer">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -1523,6 +1563,19 @@
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_22">
+               <item row="8" column="4">
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>50</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_19">
                  <property name="text">
@@ -1530,14 +1583,21 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="5">
-                <widget class="Line" name="line_11">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+               <item row="5" column="0" colspan="2">
+                <widget class="QLabel" name="label_24">
+                 <property name="text">
+                  <string>Кредиты:</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0" colspan="5">
+               <item row="3" column="0" colspan="2">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>Название:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0" colspan="5">
                 <widget class="QGroupBox" name="groupBox_ListModulesEditor">
                  <property name="title">
                   <string>Модули:</string>
@@ -1559,7 +1619,7 @@
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QTableWidget" name="tableWidget"/>
+                   <widget class="QTableWidget" name="tableWidget_ListModulesEditor"/>
                   </item>
                   <item row="1" column="0">
                    <widget class="QPushButton" name="pushButton_EditModuleEditor">
@@ -1574,14 +1634,46 @@
                  </layout>
                 </widget>
                </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QLabel" name="label_22">
-                 <property name="text">
-                  <string>Название:</string>
+               <item row="1" column="0" colspan="5">
+                <widget class="Line" name="line_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
-               <item row="7" column="1" colspan="3">
+               <item row="5" column="2" colspan="3">
+                <widget class="QLabel" name="label_SubjectCreditsEditer">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0" colspan="5">
+                <widget class="QLabel" name="label_17">
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Редактор</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>70</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="8" column="1" colspan="3">
                 <widget class="QPushButton" name="pushButton_SaveSubject">
                  <property name="minimumSize">
                   <size>
@@ -1600,14 +1692,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0" colspan="2">
-                <widget class="QLabel" name="label_24">
-                 <property name="text">
-                  <string>Кредиты:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
+               <item row="8" column="0">
                 <spacer name="horizontalSpacer_5">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
@@ -1620,54 +1705,19 @@
                  </property>
                 </spacer>
                </item>
-               <item row="7" column="4">
-                <spacer name="horizontalSpacer_6">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>50</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="0" column="0" colspan="5">
-                <widget class="QLabel" name="label_17">
-                 <property name="font">
-                  <font>
-                   <pointsize>20</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Редактор</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <spacer name="verticalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>70</height>
-                  </size>
-                 </property>
-                </spacer>
+               <item row="3" column="2" colspan="3">
+                <widget class="QLineEdit" name="lineEdit_SubjectNameEditer"/>
                </item>
                <item row="2" column="2" colspan="3">
                 <widget class="QLineEdit" name="lineEdit_SubjectNumberEditer"/>
                </item>
-               <item row="3" column="2" colspan="3">
-                <widget class="QLineEdit" name="lineEdit_SubjectNameEditer"/>
-               </item>
                <item row="4" column="2" colspan="3">
-                <widget class="QLabel" name="label_SubjectCreditsEditer">
+                <widget class="QLineEdit" name="lineEdit_Control"/>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <widget class="QLabel" name="label_29">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Контроль:</string>
                  </property>
                 </widget>
                </item>
@@ -1729,7 +1779,7 @@
                   <enum>QFrame::StyledPanel</enum>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -1742,14 +1792,14 @@
                   <item row="0" column="0">
                    <widget class="QRadioButton" name="radioButton_AnswerAViewer">
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>-</string>
                     </property>
                    </widget>
                   </item>
                   <item row="1" column="0">
                    <widget class="QRadioButton" name="radioButton_AnswerBViewer">
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>-</string>
                     </property>
                    </widget>
                   </item>
