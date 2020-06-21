@@ -35,7 +35,7 @@
     </sizepolicy>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QGridLayout" name="gridLayout_10">
@@ -245,8 +245,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>330</width>
-             <height>388</height>
+             <width>1018</width>
+             <height>472</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -593,8 +593,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>25</width>
-                  <height>33</height>
+                  <width>479</width>
+                  <height>395</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -720,8 +720,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>270</width>
-          <height>446</height>
+          <width>232</width>
+          <height>443</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -784,8 +784,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>270</width>
-          <height>446</height>
+          <width>232</width>
+          <height>401</height>
          </rect>
         </property>
         <attribute name="label">

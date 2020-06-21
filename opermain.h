@@ -16,6 +16,7 @@
 #include "database.h"
 #include "databasebuffer.h"
 #include "moduleviewerdialog.h"
+#include "moduleeditordialog.h"
 
 namespace Ui {
 class OperMain;
@@ -73,6 +74,18 @@ private slots:
     void on_pushButton_ViewMode_clicked();
 
     void on_pushButton_EditMode_clicked();
+
+    void on_pushButton_EditModuleEditor_clicked();
+
+    void slot_getResult(vector <Module> module, vector <Mod_Comp> mod_comp);
+
+    void on_pushButton_3_clicked();
+
+    void on_commandLinkButton_5_clicked();
+
+    void on_tableWidget_Subjects_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
+
+    void on_tableWidget_Subjects_cellClicked(int row, int column);
 
 private:
     Ui::OperMain *ui;

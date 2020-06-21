@@ -241,7 +241,6 @@ void Database::Calculate(int hours_full, float coef)
 
     for(int j = 0; j < mod_1.size(); j++)
     {
-
         for(int z = 0; z < mod_comp_1.size(); z++)
         {
             if(mod_1[j].id == mod_comp_1[z].id_module)
@@ -337,5 +336,5 @@ void Database::Calculate(int hours_full, float coef)
     qDebug() << "Calculate complete!";
 
     for(int i = 0; i < result_mod.size(); i++)
-        qDebug() << result_mod[i].id << result_mod[i].name << result_mod[i].hours << result_mod[i].discipline;
+        qDebug() << result_mod[i].id << result_mod[i].name << result_mod[i].hours << result_mod[i].discipline << result_question.size();
 }

@@ -13,7 +13,7 @@ ModuleEditorDialog::~ModuleEditorDialog()
     delete ui;
 }
 
-void ModuleEditorDialog::setData(vector<Module> modules, Discipline subject)
+void ModuleEditorDialog::setData(vector<Module> modules, Discipline subject, vector <Mod_Comp> mod)
 {
     module = modules;
     int sum_hours = 0;
@@ -56,4 +56,34 @@ void ModuleEditorDialog::on_tableWidget_currentItemChanged(QTableWidgetItem *cur
 
             currentRow = i;
         }
+}
+
+void ModuleEditorDialog::on_pushButton_Change_clicked()
+{
+    module.at(currentRow).id = ui->lineEdit_id->text();
+    module.at(currentRow).name = ui->lineEdit_name->text();
+    module.at(currentRow).hours = ui->spinBox_Credits->value();
+
+    ui->tableWidget->item(ui->tableWidget->currentRow(), 0)->setText(ui->lineEdit_name->text());
+    ui->tableWidget->item(ui->tableWidget->currentRow(), 1)->setText(ui->spinBox_Credits->text());
+
+    ui->label_sum_credits->setText(QVariant(QVariant(ui->label_sum_credits->text()).toInt() + ui->spinBox_Credits->value()).toString());
+}
+
+void ModuleEditorDialog::on_pushButton_Delete_clicked()
+{
+    ui->label_sum_credits->setText(QVariant(QVariant(ui->label_sum_credits->text()).toInt() - ui->spinBox_Credits->value()).toString());
+    module.erase(module.begin()+currentRow);
+    ui->tableWidget->removeRow(ui->tableWidget->currentRow());
+}
+
+void ModuleEditorDialog::on_pushButton_Cancel_clicked()
+{
+    this->close();
+}
+
+void ModuleEditorDialog::on_pushButton_Save_clicked()
+{
+    emit takeResult(module);
+    this->close();
 }
