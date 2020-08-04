@@ -98,16 +98,23 @@ void ExpertMain::on_listWidget_Competence2_currentRowChanged(int currentRow)
 
 void ExpertMain::on_pushButton_Set_clicked()
 {
-    for(int i = 0; i < ui->listWidget_Competence1->selectedItems().size(); i++)
-    {
-        for(int j = 0; j < ui->listWidget_Competence2->selectedItems().size(); j++)
+    bool flag = false;
+
+    for(int i = 0; i < mydb.conf.size(); i++)
+        if(mydb.conf.at(i).compet_1 == ui->listWidget_Competence1->currentItem()->text() && mydb.conf.at(i).compet_2 == ui->listWidget_Competence2->currentItem()->text())
         {
-            for(int k = 0; k < mydb.conf.size(); k++)
-            {
-                if(mydb.conf.at(k).compet_1 == ui->listWidget_Competence1->selectedItems().at(i)->text() && mydb.conf.at(k).compet_2 == ui->listWidget_Competence2->selectedItems().at(j)->text())
-                    mydb.conf.at(k).value_coef = ui->doubleSpinBox_value_coef->value();
-            }
+            mydb.conf.at(i).value_coef = ui->doubleSpinBox_value_coef->value();
+            flag = true;
         }
+
+    if(flag == false)
+    {
+        Conformity tmp;
+        tmp.compet_1 = ui->listWidget_Competence1->currentItem()->text();
+        tmp.compet_2 = ui->listWidget_Competence2->currentItem()->text();
+        tmp.value_coef = ui->doubleSpinBox_value_coef->value();
+
+        mydb.conf.push_back(tmp);
     }
 }
 
@@ -118,7 +125,13 @@ void ExpertMain::ValueCoefUpdate()
         for(int k = 0; k < mydb.conf.size(); k++)
         {
             if(ui->listWidget_Competence1->currentItem()->text() == mydb.conf.at(k).compet_1 && ui->listWidget_Competence2->currentItem()->text() == mydb.conf.at(k).compet_2)
+            {
                 ui->doubleSpinBox_value_coef->setValue(mydb.conf.at(k).value_coef);
+                k = mydb.conf.size();
+            }
+            else
+                ui->doubleSpinBox_value_coef->setValue(0);
+
         }
     }
 }

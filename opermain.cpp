@@ -121,12 +121,14 @@ void OperMain::on_commandLinkButton_3_clicked()
     ui->stackedWidget_Workspace->setCurrentIndex(2);
     ui->stackedWidget_EditOrViewSpace->setVisible(true);
 
-    ui->stackedWidget_Subjects->setCurrentIndex(0);
-
-    if(Mode)
-        ui->stackedWidget_EditOrViewSpace->setCurrentIndex(2);
-    else
+    if(ui->pushButton_EditMode->isFlat())
+    {
         ui->stackedWidget_EditOrViewSpace->setCurrentIndex(3);
+    }
+    else
+        ui->stackedWidget_EditOrViewSpace->setCurrentIndex(2);
+
+    ui->stackedWidget_Subjects->setCurrentIndex(0);
 
     ui->treeWidget_Subjects1->clear();
     ui->treeWidget_Subjects2->clear();
@@ -187,12 +189,13 @@ void OperMain::on_commandLinkButton_4_clicked()
     ui->stackedWidget_Workspace->setCurrentIndex(3);
     ui->stackedWidget_EditOrViewSpace->setVisible(true);
 
-    if(Mode)
+    if(ui->pushButton_ViewMode->isFlat())
         ui->stackedWidget_EditOrViewSpace->setCurrentIndex(4);
     else
         ui->stackedWidget_EditOrViewSpace->setCurrentIndex(5);
 
     ui->listWidget_ListCompetences->clear();
+    ui->listWidget_ListQuestions->clear();
 
     for(int i = 0; i < mydb.competence_2.size(); i++)
         ui->listWidget_ListCompetences->addItem(mydb.competence_2.at(i).number);
@@ -200,70 +203,12 @@ void OperMain::on_commandLinkButton_4_clicked()
 
 void OperMain::on_listWidget_Competences2_currentRowChanged(int currentRow)
 {
-    ui->label_InformationCompetence->setText(mydb.competence_2.at(currentRow).name);
-    ui->label_NumberCompetence->setText(mydb.competence_2.at(currentRow).number);
 
-    switch (QVariant(mydb.competence_2.at(currentRow).text).toInt())
-    {
-    case 1:
-    {
-        ui->radioButton_Type1_view->setChecked(true);
-        ui->radioButton_Type2_View->setChecked(false);
-        ui->radioButton_Type3_View->setChecked(false);
-
-        break;
-    }
-    case 2:
-    {
-        ui->radioButton_Type1_view->setChecked(false);
-        ui->radioButton_Type2_View->setChecked(false);
-        ui->radioButton_Type3_View->setChecked(true);
-
-        break;
-    }
-    case 3:
-    {
-        ui->radioButton_Type1_view->setChecked(false);
-        ui->radioButton_Type2_View->setChecked(true);
-        ui->radioButton_Type3_View->setChecked(false);
-
-        break;
-    }
-    }
 }
 
 void OperMain::on_listWidget_Competences1_currentRowChanged(int currentRow)
 {
-    ui->label_InformationCompetence->setText(mydb.competence_1.at(currentRow).name);
-    ui->label_NumberCompetence->setText(mydb.competence_1.at(currentRow).number);
 
-    switch (QVariant(mydb.competence_1.at(currentRow).text).toInt())
-    {
-    case 1:
-    {
-        ui->radioButton_Type1_view->setChecked(true);
-        ui->radioButton_Type2_View->setChecked(false);
-        ui->radioButton_Type3_View->setChecked(false);
-
-        break;
-    }
-    case 2:
-    {
-        ui->radioButton_Type1_view->setChecked(false);
-        ui->radioButton_Type2_View->setChecked(false);
-        ui->radioButton_Type3_View->setChecked(true);
-
-        break;
-    }
-    case 3:
-    {
-        ui->radioButton_Type1_view->setChecked(false);
-        ui->radioButton_Type2_View->setChecked(true);
-        ui->radioButton_Type3_View->setChecked(false);
-
-        break;
-    }
-    }
 }
 
 void OperMain::on_comboBox_SetRange_currentIndexChanged(int index)
@@ -273,56 +218,12 @@ void OperMain::on_comboBox_SetRange_currentIndexChanged(int index)
 
 void OperMain::on_listWidget_ListCompetences_currentRowChanged(int currentRow)
 {
-    ui->listWidget_ListQuestions->clear();
 
-    for(int i = 0; i < mydb.question.size(); i++)
-        if(ui->listWidget_ListCompetences->currentItem()->text() == mydb.question.at(i).id_compet)
-            ui->listWidget_ListQuestions->addItem(mydb.question.at(i).text);
 }
 
 void OperMain::on_listWidget_ListQuestions_currentRowChanged(int currentRow)
 {
-    for(int i = 0; i < mydb.question.size(); i++)
-        if(ui->listWidget_ListQuestions->currentItem()->text() == mydb.question.at(i).text)
-        {
-            ui->label_Question->setText(mydb.question.at(i).text);
 
-            ui->radioButton_AnswerAViewer->setText(mydb.question.at(i).a);
-            ui->radioButton_AnswerBViewer->setText(mydb.question.at(i).b);
-            ui->radioButton_AnswerCViewer->setText(mydb.question.at(i).c);
-            ui->radioButton_AnswerDViewer->setText(mydb.question.at(i).d);
-
-            if(mydb.question.at(i).answer_true == "a")
-            {
-                ui->radioButton_AnswerAViewer->setChecked(true);
-                ui->radioButton_AnswerBViewer->setChecked(false);
-                ui->radioButton_AnswerCViewer->setChecked(false);
-                ui->radioButton_AnswerDViewer->setChecked(false);
-            }
-            else if(mydb.question.at(i).answer_true == "b")
-            {
-                ui->radioButton_AnswerAViewer->setChecked(false);
-                ui->radioButton_AnswerBViewer->setChecked(true);
-                ui->radioButton_AnswerCViewer->setChecked(false);
-                ui->radioButton_AnswerDViewer->setChecked(false);
-            }
-            else if(mydb.question.at(i).answer_true == "c")
-            {
-                ui->radioButton_AnswerAViewer->setChecked(false);
-                ui->radioButton_AnswerBViewer->setChecked(false);
-                ui->radioButton_AnswerCViewer->setChecked(true);
-                ui->radioButton_AnswerDViewer->setChecked(false);
-            }
-            else if(mydb.question.at(i).answer_true == "d")
-            {
-                ui->radioButton_AnswerAViewer->setChecked(false);
-                ui->radioButton_AnswerBViewer->setChecked(false);
-                ui->radioButton_AnswerCViewer->setChecked(false);
-                ui->radioButton_AnswerDViewer->setChecked(true);
-            }
-
-            break;
-        }
 }
 
 void OperMain::on_comboBox_SetRange_2_currentIndexChanged(int index)
@@ -332,75 +233,13 @@ void OperMain::on_comboBox_SetRange_2_currentIndexChanged(int index)
 
 void OperMain::on_treeWidget_Subjects1_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    for(int i = 0; i < ui->treeWidget_Subjects1->topLevelItemCount(); i++)
-        if(ui->treeWidget_Subjects1->topLevelItem(i)->text(0) == current->text(0))
-        {
-            ui->label_NumberSubjectViewer->setText(mydb.discipline_1.at(i).id);
-            ui->label_NameSubjectViewer->setText(mydb.discipline_1.at(i).name);
-            ui->label_ControlSubjectViewer->setText(mydb.discipline_1.at(i).control);
-            ui->label_CreditsSubjectsViewer->setText(current->text(2));
 
-            ui->tableWidget_ListModulesViewer->setRowCount(0);
-
-            for(int j = 0; j < mydb.mod_1.size(); j++)
-                if(mydb.mod_1.at(j).discipline == current->text(1))
-                {
-                    ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
-                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
-                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
-                }
-
-            ui->lineEdit_SubjectNameEditer->setText(mydb.discipline_1.at(i).name);
-            ui->lineEdit_SubjectNumberEditer->setText(mydb.discipline_1.at(i).id);
-            ui->lineEdit_Control->setText(mydb.discipline_1.at(i).control);
-
-            ui->tableWidget_ListModulesEditor->setRowCount(0);
-
-            for(int j = 0; j < mydb.mod_1.size(); j++)
-                if(mydb.mod_1.at(j).discipline == current->text(1))
-                {
-                    ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
-                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
-                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
-                }
-        }
 }
 
 
 void OperMain::on_treeWidget_Subjects2_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    for(int i = 0; i < ui->treeWidget_Subjects2->topLevelItemCount(); i++)
-        if(ui->treeWidget_Subjects2->topLevelItem(i)->text(0) == current->text(0))
-        {
-            ui->label_NumberSubjectViewer->setText(mydb.discipline_2.at(i).id);
-            ui->label_NameSubjectViewer->setText(mydb.discipline_2.at(i).name);
-            ui->label_ControlSubjectViewer->setText(mydb.discipline_2.at(i).control);
-            ui->label_CreditsSubjectsViewer->setText(current->text(2));
 
-            ui->tableWidget_ListModulesViewer->setRowCount(0);
-
-            for(int j = 0; j < mydb.mod_2.size(); j++)
-                if(mydb.mod_2.at(j).discipline == current->text(1))
-                {
-                    ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
-                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
-                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
-                }
-
-            ui->lineEdit_SubjectNameEditer->setText(mydb.discipline_2.at(i).name);
-            ui->lineEdit_SubjectNumberEditer->setText(mydb.discipline_2.at(i).id);
-            ui->lineEdit_Control->setText(mydb.discipline_2.at(i).control);
-
-            ui->tableWidget_ListModulesEditor->setRowCount(0);
-
-            for(int j = 0; j < mydb.mod_2.size(); j++)
-                if(mydb.mod_2.at(j).discipline == current->text(1))
-                {
-                    ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
-                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
-                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
-                }
-        }
 }
 
 void OperMain::on_pushButton_ViewModulesViewer_clicked()
@@ -432,8 +271,13 @@ void OperMain::on_pushButton_ViewModulesViewer_clicked()
 
 void OperMain::on_pushButton_ViewMode_clicked()
 {
+    SaveChange();
+
     ui->pushButton_ViewMode->setFlat(true);
     ui->pushButton_EditMode->setFlat(false);
+
+    ui->lineEdit_NameDB->setEnabled(false);
+    ui->plainTextEdit_InfoDB->setEnabled(false);
 
     switch (ui->stackedWidget_Workspace->currentIndex())
     {
@@ -458,6 +302,9 @@ void OperMain::on_pushButton_EditMode_clicked()
 {
     ui->pushButton_ViewMode->setFlat(false);
     ui->pushButton_EditMode->setFlat(true);
+
+    ui->lineEdit_NameDB->setEnabled(true);
+    ui->plainTextEdit_InfoDB->setEnabled(true);
 
     switch (ui->stackedWidget_Workspace->currentIndex())
     {
@@ -500,9 +347,35 @@ void OperMain::on_pushButton_EditModuleEditor_clicked()
                 i = mydb.discipline_1.size();
             }
     }
+    connect(window, SIGNAL(takeResult(vector <Module>, vector <Mod_Comp>)), this, SLOT(slot_getResult(vector <Module>, vector <Mod_Comp>)));
 
     window->exec();
     delete window;
+
+    if(ui->comboBox_SetRange_2->currentIndex())
+    {
+        ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+        for(int j = 0; j < mydb.mod_2.size(); j++)
+            if(mydb.mod_2.at(j).discipline == ui->treeWidget_Subjects2->currentItem()->text(1))
+            {
+                ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
+            }
+    }
+    else
+    {
+        ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+        for(int j = 0; j < mydb.mod_1.size(); j++)
+            if(mydb.mod_1.at(j).discipline == ui->treeWidget_Subjects1->currentItem()->text(1))
+            {
+                ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+            }
+    }
 }
 
 void OperMain::slot_getResult(vector <Module> module, vector <Mod_Comp> mod_comp)
@@ -517,10 +390,35 @@ void OperMain::slot_getResult(vector <Module> module, vector <Mod_Comp> mod_comp
         mydb.mod_1 = module;
         mydb.mod_comp_1 = mod_comp;
     }
+
+    if(ui->comboBox_SetRange_2->currentIndex())
+    {
+        ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+        for(int j = 0; j < mydb.mod_2.size(); j++)
+            if(mydb.mod_2.at(j).discipline == ui->treeWidget_Subjects2->currentItem()->text(1))
+            {
+                ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
+            }
+    }
+    else
+    {
+        ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+        for(int j = 0; j < mydb.mod_1.size(); j++)
+            if(mydb.mod_1.at(j).discipline == ui->treeWidget_Subjects1->currentItem()->text(1))
+            {
+                ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+            }
+    }
 }
 void OperMain::on_pushButton_3_clicked()
 {
-    //СОХРАНЕНИЕ ВСЁ В БД
+    on_pushButton_ViewMode_clicked();
 
     mydb.LoadData(&db);
     mydb.Calculate(ui->spinBox_CountCredits->value(), ui->doubleSpinBox_CountCoeficient->value());
@@ -653,39 +551,659 @@ void OperMain::slot_GetResult_From_CompetenceSelectionDialog(vector <Module> mod
 
 void OperMain::on_pushButton_AddSubject2_clicked()
 {
-    ui->treeWidget_Subjects2->addTopLevelItem(new QTreeWidgetItem);
-    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(0, "-");
-    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(1, "-");
-    ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(2, "0");
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        ui->treeWidget_Subjects2->addTopLevelItem(new QTreeWidgetItem);
+        ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(0, "-");
+        ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(1, "-");
+        ui->treeWidget_Subjects2->topLevelItem(ui->treeWidget_Subjects2->topLevelItemCount()-1)->setText(2, "0");
 
-    Discipline tmp;
+        Discipline tmp;
 
-    tmp.id = "-";
-    tmp.name = "-";
-    tmp.control = "-";
+        tmp.id = "-";
+        tmp.name = "-";
+        tmp.control = "-";
 
-    mydb.discipline_2.push_back(tmp);
+        mydb.discipline_2.push_back(tmp);
+
+        ui->label_Status->setText("Редактировано");
+    }
 }
 
 void OperMain::on_pushButton_AddSubject1_clicked()
 {
-    ui->treeWidget_Subjects1->addTopLevelItem(new QTreeWidgetItem);
-    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(0, "-");
-    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(1, "-");
-    ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(2, "0");
+    if(ui->pushButton_EditMode)
+    {
+        ui->treeWidget_Subjects1->addTopLevelItem(new QTreeWidgetItem);
+        ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(0, "-");
+        ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(1, "-");
+        ui->treeWidget_Subjects1->topLevelItem(ui->treeWidget_Subjects1->topLevelItemCount()-1)->setText(2, "0");
 
-    Discipline tmp;
+        Discipline tmp;
 
-    tmp.id = "-";
-    tmp.name = "-";
-    tmp.control = "-";
+        tmp.id = "-";
+        tmp.name = "-";
+        tmp.control = "-";
 
-    mydb.discipline_1.push_back(tmp);
+        mydb.discipline_1.push_back(tmp);
+
+        ui->label_Status->setText("Редактировано");
+    }
 }
 
 void OperMain::on_toolButton_2_clicked()
 {
-    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 0);
-    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 1);
-    ui->treeWidget_Subjects1->removeItemWidget(ui->treeWidget_Subjects1->currentItem(), 2);
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.discipline_1.size(); i++)
+        {
+            if(ui->treeWidget_Subjects1->currentItem()->text(0) == mydb.discipline_1.at(i).id)
+            {
+                for(int j = 0; j < mydb.mod_1.size(); j++)
+                {
+                    if(mydb.discipline_1.at(i).name == mydb.mod_1.at(j).discipline)
+                    {
+                        for(int k = 0; k < mydb.mod_comp_1.size(); k++)
+                        {
+                            if(mydb.mod_1.at(j).id == mydb.mod_comp_1.at(k).id_module)
+                            {
+                                mydb.mod_comp_1.erase(mydb.mod_comp_1.begin()+k);
+                                k--;
+                            }
+                        }
+                        mydb.mod_1.erase(mydb.mod_1.begin()+j);
+                        j--;
+                    }
+                }
+                mydb.discipline_1.erase(mydb.discipline_1.begin()+i);
+                i--;
+            }
+        }
+
+        delete ui->treeWidget_Subjects1->currentItem();
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_toolButton_3_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.discipline_2.size(); i++)
+        {
+            if(ui->treeWidget_Subjects2->currentItem()->text(0) == mydb.discipline_2.at(i).id)
+            {
+                for(int j = 0; j < mydb.mod_2.size(); j++)
+                {
+                    if(mydb.discipline_2.at(i).name == mydb.mod_2.at(j).discipline)
+                    {
+                        for(int k = 0; k < mydb.mod_comp_2.size(); k++)
+                        {
+                            if(mydb.mod_2.at(j).id == mydb.mod_comp_2.at(k).id_module)
+                            {
+                                mydb.mod_comp_2.erase(mydb.mod_comp_2.begin()+k);
+                                k--;
+                            }
+                        }
+                        mydb.mod_2.erase(mydb.mod_2.begin()+j);
+                        j--;
+                    }
+                }
+                mydb.discipline_2.erase(mydb.discipline_2.begin()+i);
+                i--;
+            }
+        }
+
+        delete ui->treeWidget_Subjects2->currentItem();
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_listWidget_ListQuestions_itemSelectionChanged()
+{
+    if(ui->pushButton_ViewMode->isFlat())
+    {
+        for(int i = 0; i < mydb.question.size(); i++)
+            if(ui->listWidget_ListQuestions->currentItem()->text() == mydb.question.at(i).text)
+            {
+                ui->label_Question->setText(mydb.question.at(i).text);
+
+                ui->radioButton_AnswerAViewer->setText(mydb.question.at(i).a);
+                ui->radioButton_AnswerBViewer->setText(mydb.question.at(i).b);
+                ui->radioButton_AnswerCViewer->setText(mydb.question.at(i).c);
+                ui->radioButton_AnswerDViewer->setText(mydb.question.at(i).d);
+
+                if(mydb.question.at(i).answer_true == "a")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(true);
+                    ui->radioButton_AnswerBViewer->setChecked(false);
+                    ui->radioButton_AnswerCViewer->setChecked(false);
+                    ui->radioButton_AnswerDViewer->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "b")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBViewer->setChecked(true);
+                    ui->radioButton_AnswerCViewer->setChecked(false);
+                    ui->radioButton_AnswerDViewer->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "c")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBViewer->setChecked(false);
+                    ui->radioButton_AnswerCViewer->setChecked(true);
+                    ui->radioButton_AnswerDViewer->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "d")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBViewer->setChecked(false);
+                    ui->radioButton_AnswerCViewer->setChecked(false);
+                    ui->radioButton_AnswerDViewer->setChecked(true);
+                }
+
+                break;
+            }
+    }
+    else
+    {
+        for(int i = 0; i < mydb.question.size(); i++)
+            if(ui->listWidget_ListQuestions->currentItem()->text() == mydb.question.at(i).text)
+            {
+                ui->plainTextEdit_QuastionText->setPlainText(mydb.question.at(i).text);
+
+                ui->lineEdit_AnswerA->setText(mydb.question.at(i).a);
+                ui->lineEdit_AnswerB->setText(mydb.question.at(i).b);
+                ui->lineEdit_AnswerC->setText(mydb.question.at(i).c);
+                ui->lineEdit_AnswerD->setText(mydb.question.at(i).d);
+
+                if(mydb.question.at(i).answer_true == "a")
+                {
+                    ui->radioButton_AnswerA_Editer->setChecked(true);
+                    ui->radioButton_AnswerBEditer->setChecked(false);
+                    ui->radioButton_AnswerCEditor->setChecked(false);
+                    ui->radioButton_AnswerDEditor->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "b")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBEditer->setChecked(true);
+                    ui->radioButton_AnswerCEditor->setChecked(false);
+                    ui->radioButton_AnswerDEditor->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "c")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBEditer->setChecked(false);
+                    ui->radioButton_AnswerCEditor->setChecked(true);
+                    ui->radioButton_AnswerDEditor->setChecked(false);
+                }
+                else if(mydb.question.at(i).answer_true == "d")
+                {
+                    ui->radioButton_AnswerAViewer->setChecked(false);
+                    ui->radioButton_AnswerBEditer->setChecked(false);
+                    ui->radioButton_AnswerCEditor->setChecked(false);
+                    ui->radioButton_AnswerDEditor->setChecked(true);
+                }
+
+                if(mydb.question.at(i).c == "-")
+                {
+                    ui->groupBox_AnswerCEditor->setChecked(false);
+                }
+                else
+                    ui->groupBox_AnswerCEditor->setChecked(true);
+                if(mydb.question.at(i).d == "-")
+                {
+                    ui->groupBox_AnswerDEditor->setChecked(false);
+                }
+                else
+                    ui->groupBox_AnswerDEditor->setChecked(true);
+
+                break;
+            }
+    }
+}
+
+void OperMain::on_pushButton_AddQuestion_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        ui->listWidget_ListQuestions->addItem("-");
+
+        Question tmp;
+
+        tmp.a = "-";
+        tmp.b = "-";
+        tmp.c = "-";
+        tmp.d = "-";
+        tmp.text = "-";
+        tmp.id_compet = ui->listWidget_ListCompetences->currentItem()->text();
+        tmp.answer_true = "a";
+
+        mydb.question.push_back(tmp);
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_pushButton_SaveQuestion_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.question.size(); i++)
+        {
+            if(mydb.question.at(i).id_compet == ui->listWidget_ListCompetences->currentItem()->text())
+            {
+                if(mydb.question.at(i).text == ui->listWidget_ListQuestions->currentItem()->text())
+                {
+                    mydb.question.at(i).text = ui->plainTextEdit_QuastionText->toPlainText();
+                    mydb.question.at(i).a = ui->lineEdit_AnswerA->text();
+                    mydb.question.at(i).b = ui->lineEdit_AnswerB->text();
+                    mydb.question.at(i).c = ui->lineEdit_AnswerC->text();
+                    mydb.question.at(i).d = ui->lineEdit_AnswerD->text();
+
+                    if(ui->radioButton_AnswerA_Editer->isChecked())
+                    {
+                        mydb.question.at(i).answer_true = "a";
+                    }
+                    else if(ui->radioButton_AnswerBEditer->isChecked())
+                    {
+                        mydb.question.at(i).answer_true = "b";
+                    }
+                    else if(ui->radioButton_AnswerCEditor->isChecked())
+                    {
+                        mydb.question.at(i).answer_true = "c";
+                    }
+                    else if(ui->radioButton_AnswerDEditor->isChecked())
+                    {
+                        mydb.question.at(i).answer_true = "d";
+                    }
+                }
+            }
+        }
+
+        ui->listWidget_ListQuestions->currentItem()->setText(ui->plainTextEdit_QuastionText->toPlainText());
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_toolButton_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.question.size(); i++)
+        {
+            if(mydb.question.at(i).text == ui->listWidget_ListQuestions->currentItem()->text())
+            {
+                mydb.question.erase(mydb.question.begin()+i);
+                ui->listWidget_ListQuestions->removeItemWidget(ui->listWidget_ListQuestions->currentItem());
+                i = mydb.question.size();
+            }
+        }
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_listWidget_ListCompetences_itemSelectionChanged()
+{
+    ui->listWidget_ListQuestions->clear();
+
+    for(int i = 0; i < mydb.question.size(); i++)
+        if(ui->listWidget_ListCompetences->currentItem()->text() == mydb.question.at(i).id_compet)
+            ui->listWidget_ListQuestions->addItem(mydb.question.at(i).text);
+}
+
+void OperMain::on_listWidget_Competences1_itemSelectionChanged()
+{
+    ui->label_InformationCompetence->setText(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).number);
+    ui->label_NumberCompetence->setText(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).name);
+
+    switch (QVariant(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).text).toInt())
+    {
+    case 1:
+    {
+        ui->radioButton_Type1_view->setChecked(true);
+        ui->radioButton_Type2_View->setChecked(false);
+        ui->radioButton_Type3_View->setChecked(false);
+
+        break;
+    }
+    case 2:
+    {
+        ui->radioButton_Type1_view->setChecked(false);
+        ui->radioButton_Type2_View->setChecked(false);
+        ui->radioButton_Type3_View->setChecked(true);
+
+        break;
+    }
+    case 3:
+    {
+        ui->radioButton_Type1_view->setChecked(false);
+        ui->radioButton_Type2_View->setChecked(true);
+        ui->radioButton_Type3_View->setChecked(false);
+
+        break;
+    }
+    }
+
+
+    ui->lineEdit->setText(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).number);
+    ui->plainTextEdit->setPlainText(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).name);
+
+    switch (QVariant(mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).text).toInt())
+    {
+    case 1:
+    {
+        ui->radioButton->setChecked(true);
+        ui->radioButton_2->setChecked(false);
+        ui->radioButton_3->setChecked(false);
+
+        break;
+    }
+    case 2:
+    {
+        ui->radioButton->setChecked(false);
+        ui->radioButton_2->setChecked(false);
+        ui->radioButton_3->setChecked(true);
+
+        break;
+    }
+    case 3:
+    {
+        ui->radioButton->setChecked(false);
+        ui->radioButton_2->setChecked(true);
+        ui->radioButton_3->setChecked(false);
+
+        break;
+    }
+    }
+}
+
+void OperMain::on_listWidget_Competences2_itemSelectionChanged()
+{
+    ui->label_InformationCompetence->setText(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).number);
+    ui->label_NumberCompetence->setText(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).name);
+
+    switch (QVariant(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).text).toInt())
+    {
+    case 1:
+    {
+        ui->radioButton_Type1_view->setChecked(true);
+        ui->radioButton_Type2_View->setChecked(false);
+        ui->radioButton_Type3_View->setChecked(false);
+
+        break;
+    }
+    case 2:
+    {
+        ui->radioButton_Type1_view->setChecked(false);
+        ui->radioButton_Type2_View->setChecked(false);
+        ui->radioButton_Type3_View->setChecked(true);
+
+        break;
+    }
+    case 3:
+    {
+        ui->radioButton_Type1_view->setChecked(false);
+        ui->radioButton_Type2_View->setChecked(true);
+        ui->radioButton_Type3_View->setChecked(false);
+
+        break;
+    }
+    }
+
+    ui->lineEdit->setText(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).number);
+    ui->plainTextEdit->setPlainText(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).name);
+
+    switch (QVariant(mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).text).toInt())
+    {
+    case 1:
+    {
+        ui->radioButton->setChecked(true);
+        ui->radioButton_2->setChecked(false);
+        ui->radioButton_3->setChecked(false);
+
+        break;
+    }
+    case 2:
+    {
+        ui->radioButton->setChecked(false);
+        ui->radioButton_2->setChecked(false);
+        ui->radioButton_3->setChecked(true);
+
+        break;
+    }
+    case 3:
+    {
+        ui->radioButton->setChecked(false);
+        ui->radioButton_2->setChecked(true);
+        ui->radioButton_3->setChecked(false);
+
+        break;
+    }
+    }
+}
+
+void OperMain::on_pushButton_AddCompetence1_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        ui->listWidget_Competences1->addItem("-");
+
+        Competence tmp;
+        tmp.name = "-";
+        tmp.text = "0";
+        tmp.number = "-";
+
+        mydb.competence_1.push_back(tmp);
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_pushButton_DeleteCompetence1_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.competence_1.size(); i++)
+        {
+            if(ui->listWidget_Competences1->currentItem()->text() == mydb.competence_1.at(i).number)
+            {
+                mydb.competence_1.erase(mydb.competence_1.begin()+i);
+                ui->listWidget_Competences1->removeItemWidget(ui->listWidget_Competences1->currentItem());
+                i = mydb.competence_1.size();
+            }
+        }
+
+        on_commandLinkButton_2_clicked();
+
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_pushButton_2_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        ui->listWidget_Competences2->addItem("-");
+
+        Competence tmp;
+        tmp.name = "-";
+        tmp.text = "0";
+        tmp.number = "-";
+
+        mydb.competence_2.push_back(tmp);
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_toolButton_DeleteCompetence2_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        for(int i = 0; i < mydb.competence_2.size(); i++)
+        {
+            if(ui->listWidget_Competences2->currentItem()->text() == mydb.competence_2.at(i).number)
+            {
+                mydb.competence_2.erase(mydb.competence_2.begin()+i);
+                ui->listWidget_Competences2->removeItemWidget(ui->listWidget_Competences2->currentItem());
+                i = mydb.competence_2.size();
+            }
+        }
+
+        ui->listWidget_Competences2->clear();
+
+        for(int i = 0; i < mydb.competence_2.size(); i++)
+            ui->listWidget_Competences2->addItem(mydb.competence_2.at(i).number);
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_pushButton_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        if(ui->stackedWidget_Competences->currentIndex())
+        {
+            mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).number = ui->lineEdit->text();
+            mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).name = ui->plainTextEdit->toPlainText();
+
+            if(ui->radioButton->isChecked())
+                mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).text = "1";
+            else if(ui->radioButton_2->isChecked())
+                mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).text = "3";
+            else if(ui->radioButton_3->isChecked())
+                mydb.competence_2.at(ui->listWidget_Competences2->currentRow()).text = "2";
+
+            ui->listWidget_Competences2->currentItem()->setText(ui->lineEdit->text());
+        }
+        else
+        {
+            mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).number = ui->lineEdit->text();
+            mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).name = ui->plainTextEdit->toPlainText();
+
+            if(ui->radioButton->isChecked())
+                mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).text = "1";
+            else if(ui->radioButton_2->isChecked())
+                mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).text = "3";
+            else if(ui->radioButton_3->isChecked())
+                mydb.competence_1.at(ui->listWidget_Competences1->currentRow()).text = "2";
+
+            ui->listWidget_Competences1->currentItem()->setText(ui->lineEdit->text());
+        }
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_pushButton_SaveSubject_clicked()
+{
+    if(ui->pushButton_EditMode->isFlat())
+    {
+        on_commandLinkButton_3_clicked();
+
+        ui->label_Status->setText("Редактировано");
+    }
+}
+
+void OperMain::on_treeWidget_Subjects1_itemSelectionChanged()
+{
+    if(ui->treeWidget_Subjects1->columnCount() > 0)
+    {
+        for(int i = 0; i < ui->treeWidget_Subjects1->topLevelItemCount(); i++)
+            if(ui->treeWidget_Subjects1->topLevelItem(i)->text(0) == ui->treeWidget_Subjects1->currentItem()->text(0))
+            {
+                ui->label_NumberSubjectViewer->setText(mydb.discipline_1.at(i).id);
+                ui->label_NameSubjectViewer->setText(mydb.discipline_1.at(i).name);
+                ui->label_ControlSubjectViewer->setText(mydb.discipline_1.at(i).control);
+                ui->label_CreditsSubjectsViewer->setText(ui->treeWidget_Subjects1->currentItem()->text(2));
+
+                ui->tableWidget_ListModulesViewer->setRowCount(0);
+
+                for(int j = 0; j < mydb.mod_1.size(); j++)
+                    if(mydb.mod_1.at(j).discipline == ui->treeWidget_Subjects1->currentItem()->text(1))
+                    {
+                        ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                        ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+                    }
+
+                ui->lineEdit_SubjectNameEditer->setText(mydb.discipline_1.at(i).name);
+                ui->lineEdit_SubjectNumberEditer->setText(mydb.discipline_1.at(i).id);
+                ui->lineEdit_Control->setText(mydb.discipline_1.at(i).control);
+
+                ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+                for(int j = 0; j < mydb.mod_1.size(); j++)
+                    if(mydb.mod_1.at(j).discipline == ui->treeWidget_Subjects1->currentItem()->text(1))
+                    {
+                        ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                        ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_1.at(j).name));
+                        ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_1.at(j).hours).toString()));
+                    }
+            }
+    }
+}
+
+void OperMain::on_treeWidget_Subjects2_itemSelectionChanged()
+{
+    for(int i = 0; i < ui->treeWidget_Subjects2->topLevelItemCount(); i++)
+        if(ui->treeWidget_Subjects2->topLevelItem(i)->text(0) == ui->treeWidget_Subjects2->currentItem()->text(0))
+        {
+            ui->label_NumberSubjectViewer->setText(mydb.discipline_2.at(i).id);
+            ui->label_NameSubjectViewer->setText(mydb.discipline_2.at(i).name);
+            ui->label_ControlSubjectViewer->setText(mydb.discipline_2.at(i).control);
+            ui->label_CreditsSubjectsViewer->setText(ui->treeWidget_Subjects2->currentItem()->text(2));
+
+            ui->tableWidget_ListModulesViewer->setRowCount(0);
+
+            for(int j = 0; j < mydb.mod_2.size(); j++)
+                if(mydb.mod_2.at(j).discipline == ui->treeWidget_Subjects2->currentItem()->text(1))
+                {
+                    ui->tableWidget_ListModulesViewer->insertRow(ui->tableWidget_ListModulesViewer->rowCount());
+                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
+                    ui->tableWidget_ListModulesViewer->setItem(ui->tableWidget_ListModulesViewer->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
+                }
+
+            ui->lineEdit_SubjectNameEditer->setText(mydb.discipline_2.at(i).name);
+            ui->lineEdit_SubjectNumberEditer->setText(mydb.discipline_2.at(i).id);
+            ui->lineEdit_Control->setText(mydb.discipline_2.at(i).control);
+
+            ui->tableWidget_ListModulesEditor->setRowCount(0);
+
+            for(int j = 0; j < mydb.mod_2.size(); j++)
+                if(mydb.mod_2.at(j).discipline == ui->treeWidget_Subjects2->currentItem()->text(1))
+                {
+                    ui->tableWidget_ListModulesEditor->insertRow(ui->tableWidget_ListModulesEditor->rowCount());
+                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 0, new QTableWidgetItem(mydb.mod_2.at(j).name));
+                    ui->tableWidget_ListModulesEditor->setItem(ui->tableWidget_ListModulesEditor->rowCount()-1, 1, new QTableWidgetItem(QVariant(mydb.mod_2.at(j).hours).toString()));
+                }
+        }
+}
+
+void OperMain::SaveChange()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Сохранение");
+    msgBox.setText("Сохранить изменения? Для сохранения нажмите \"Да\" для отмены всех изменений нажмите \"Нет\" ");
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    if(msgBox.exec() == QMessageBox::Yes){
+      //mydb.SaveOnHostData(&db);
+    }else {
+      mydb.LoadData(&db);
+    }
+
+}
+void OperMain::on_toolButton_Tools_clicked()
+{
+    SaveChange();
 }

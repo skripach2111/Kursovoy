@@ -58,8 +58,6 @@ bool Database::LoadData(QSqlDatabase *db)
             qDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toInt() << query.value(3).toString();
         }
 
-
-
         Mod_Comp temp_MC;
 
         query.exec("select * from mod_comp;");
@@ -171,7 +169,7 @@ bool Database::LoadData(QSqlDatabase *db)
             temp_disc.control = query.value(2).toString();
 
             discipline_1.push_back(temp_disc);
-        }        
+        }
 
         query.exec("select * from discipline_2");
 
@@ -337,4 +335,144 @@ void Database::Calculate(int hours_full, float coef)
 
     for(int i = 0; i < result_mod.size(); i++)
         qDebug() << result_mod[i].id << result_mod[i].name << result_mod[i].hours << result_mod[i].discipline << result_question.size();
+}
+
+void Database::SaveOnHostData(QSqlDatabase *db)
+{
+    if(db->open())
+    {
+        QSqlQuery query;
+        query.prepare("INSERT INTO discipline (id_discipline, name_discipline, control_discipline) "
+                      "VALUES (?, ?, ?)");
+
+        for(int i = 0; i < discipline_1.size(); i++)
+        {
+            query.addBindValue(discipline_1.at(i).id);
+            query.addBindValue(discipline_1.at(i).name);
+            query.addBindValue(discipline_1.at(i).control);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO discipline_2 (id_discipline, name_discipline, control_discipline) "
+                      "VALUES (?, ?, ?)");
+
+        for(int i = 0; i < discipline_2.size(); i++)
+        {
+            query.addBindValue(discipline_2.at(i).id);
+            query.addBindValue(discipline_2.at(i).name);
+            query.addBindValue(discipline_2.at(i).control);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO module (id_module, name_module, hours_module, id_discipline) "
+                      "VALUES (?, ?, ?, ?)");
+
+        for(int i = 0; i < mod_1.size(); i++)
+        {
+            query.addBindValue(mod_1.at(i).id);
+            query.addBindValue(mod_1.at(i).name);
+            query.addBindValue(mod_1.at(i).hours);
+
+            for(int j = 0; j = discipline_1.size(); j++)
+            {
+                if(discipline_1.at(j).name == mod_1.at(i).discipline)
+                {
+                    query.addBindValue(discipline_1.at(j).id);
+                    j = discipline_1.size();
+                }
+            }
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO module_2 (id_module, name_module, hours_module, id_discipline) "
+                      "VALUES (?, ?, ?, ?)");
+
+        for(int i = 0; i < mod_2.size(); i++)
+        {
+            query.addBindValue(mod_2.at(i).id);
+            query.addBindValue(mod_2.at(i).name);
+            query.addBindValue(mod_2.at(i).hours);
+
+            for(int j = 0; j = discipline_2.size(); j++)
+            {
+                if(discipline_2.at(j).name == mod_2.at(i).discipline)
+                {
+                    query.addBindValue(discipline_2.at(j).id);
+                    j = discipline_2.size();
+                }
+            }
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO mod_comp (id_module, id_compet) "
+                      "VALUES (?, ?)");
+
+        for(int i = 0; i < mod_comp_1.size(); i++)
+        {
+            query.addBindValue(mod_comp_1.at(i).id_module);
+            query.addBindValue(mod_comp_1.at(i).id_competence);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO mod_comp_2 (id_module, id_compet) "
+                      "VALUES (?, ?)");
+
+        for(int i = 0; i < mod_comp_2.size(); i++)
+        {
+            query.addBindValue(mod_comp_2.at(i).id_module);
+            query.addBindValue(mod_comp_2.at(i).id_competence);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO competence (id_compet, info_compet, type_compet) "
+                      "VALUES (?, ?, ?)");
+
+        for(int i = 0; i < competence_1.size(); i++)
+        {
+            query.addBindValue(competence_1.at(i).number);
+            query.addBindValue(competence_1.at(i).name);
+            query.addBindValue(competence_1.at(i).text);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO competence_2 (id_compet, info_compet, type_compet) "
+                      "VALUES (?, ?, ?)");
+
+        for(int i = 0; i < competence_2.size(); i++)
+        {
+            query.addBindValue(competence_2.at(i).number);
+            query.addBindValue(competence_2.at(i).name);
+            query.addBindValue(competence_2.at(i).text);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO question (id_question, id_compet_2, question, answer_a, answer_b, answer_c, answer_d) "
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+        for(int i = 0; i < question.size(); i++)
+        {
+            query.addBindValue(i+1);
+            query.addBindValue(question.at(i).id_compet);
+            query.addBindValue(question.at(i).text);
+            query.addBindValue(question.at(i).a);
+            query.addBindValue(question.at(i).b);
+            query.addBindValue(question.at(i).c);
+            query.addBindValue(question.at(i).d);
+            query.addBindValue(question.at(i).answer_true);
+
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO conformity (id_coeff, info_compet, id_compet_2, value_coeff) "
+                      "VALUES (?, ?, ?, ?)");
+
+        for(int i = 0; i < conf.size(); i++)
+        {
+            query.addBindValue(i+1);
+            query.addBindValue(conf.at(i).compet_1);
+            query.addBindValue(conf.at(i).compet_2);
+            query.addBindValue(conf.at(i).value_coef);
+            query.exec();
+        }
+    }
 }

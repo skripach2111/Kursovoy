@@ -96,8 +96,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>641</width>
-            <height>429</height>
+            <width>89</width>
+            <height>36</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -486,7 +486,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>6</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page_ViewCompetence">
           <layout class="QGridLayout" name="gridLayout_8">
@@ -1301,7 +1301,7 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
+                <y>-90</y>
                 <width>222</width>
                 <height>578</height>
                </rect>
@@ -1960,7 +1960,7 @@
            <item row="3" column="0" colspan="2">
             <widget class="QStackedWidget" name="stackedWidget_Subjects">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_Subjects1">
               <layout class="QGridLayout" name="gridLayout_32">
@@ -2268,7 +2268,7 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>-199</y>
+                <y>0</y>
                 <width>407</width>
                 <height>630</height>
                </rect>

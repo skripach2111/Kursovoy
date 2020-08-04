@@ -70,6 +70,7 @@ public:
 
     bool LoadData(QSqlDatabase *db);
     void Calculate(int hourse, float coef);
+    void SaveOnHostData(QSqlDatabase *db);
 
     Database();
 };

@@ -40,6 +40,8 @@ public:
 
     bool takeConnect(QSqlDatabase d);
 
+    void SaveChange();
+
 private slots:
     void on_listWidget_ListDatabases_currentRowChanged(int currentRow);
 
@@ -77,7 +79,7 @@ private slots:
 
     void on_pushButton_EditModuleEditor_clicked();
 
-    void slot_getResult(vector <Module> module, vector <Mod_Comp> mod_comp);
+    void slot_getResult(vector <Module>, vector <Mod_Comp>);
 
     void on_pushButton_3_clicked();
 
@@ -94,6 +96,40 @@ private slots:
     void on_pushButton_AddSubject1_clicked();
 
     void on_toolButton_2_clicked();
+
+    void on_toolButton_3_clicked();
+
+    void on_listWidget_ListQuestions_itemSelectionChanged();
+
+    void on_pushButton_AddQuestion_clicked();
+
+    void on_pushButton_SaveQuestion_clicked();
+
+    void on_toolButton_clicked();
+
+    void on_listWidget_ListCompetences_itemSelectionChanged();
+
+    void on_listWidget_Competences1_itemSelectionChanged();
+
+    void on_listWidget_Competences2_itemSelectionChanged();
+
+    void on_pushButton_AddCompetence1_clicked();
+
+    void on_pushButton_DeleteCompetence1_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_toolButton_DeleteCompetence2_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_SaveSubject_clicked();
+
+    void on_treeWidget_Subjects1_itemSelectionChanged();
+
+    void on_treeWidget_Subjects2_itemSelectionChanged();
+
+    void on_toolButton_Tools_clicked();
 
 private:
     Ui::OperMain *ui;
